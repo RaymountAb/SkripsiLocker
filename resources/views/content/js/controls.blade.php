@@ -5,19 +5,28 @@
         else value = "OFF";
         document.getElementById('status1').innerHTML = value;
 
-        //ajax relay 1
+        //Create XMLHttpRequest object
         var xmlhttp = new XMLHttpRequest();
+        //Define the request URL
+        var url = "/get-status/loker1/1";
 
-        xmlhttp.onreadystatechange = function()
-        {
-            if(xmlhttp.readyState == 4 && xmlhttp.status == 200)
-            {
-                // ambil respon web
-                document.getElementById('status1').innerHTML = xmlhttp.responseText;
+        // Define the request method
+        xmlhttp.open('GET', url, true);
+
+        // Define the callback function when the request completes
+        xmlhttp.onload = function() {
+            if (xmlhttp.status === 200) {
+                // Request successful
+                var response = JSON.parse(xmlhttp.responseText);
+                var statusElement = document.getElementById('status1');
+                statusElement.textContent = response.status;
+            } else {
+                // Request failed
+                console.error('Request failed. Status: ' + xmlhttp.status);
             }
-        }
-        //execute nilai database
-        xmlhttp.open("GET", )
+        };
+        // Send the request
+        xhr.send();
     }
 
     function changestatus2(value)

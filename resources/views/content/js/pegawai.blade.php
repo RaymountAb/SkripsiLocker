@@ -147,7 +147,7 @@
             var formData = new FormData(frm[0]);
             $.ajax({
                             data: formData,
-                            url: "{{ route('pegawai.update') }}",
+                            url: "{{ route('pegawai.store') }}",
                             type: "POST",
                             processData: false,
                             contentType: false,

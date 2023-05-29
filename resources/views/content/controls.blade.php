@@ -16,7 +16,7 @@
                   </h5>
                   <p class="text-sm mb-0 text-capitalize font-weight-bold">Users</p>
                     <div class="form-check form-switch ps-0 ">
-                      <input class="form-check-input mt-1 ms-auto " type="checkbox" id="lokercontrol1" onchange="changestatus1(this.checked)">
+                      <input class="form-check-input mt-1 ms-auto " type="checkbox" name="lokercontrol1" id="lokercontrol1" onchange="changestatus1(this.checked)">
                       <label class="form-check-label" for="lokercontrol1"><span id="status1">OFF</span></label>
                     </div>
                 </div>
