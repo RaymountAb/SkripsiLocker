@@ -1,5 +1,6 @@
 <script>
-    const form = document.getElementById('formPegawai');
+    //const form = document.getElementById('formPegawai');
+   // const form = document.getElementById('formeditPegawai');
     $('document').ready(function() {
         // success alert
         function swal_success(message) {
@@ -96,15 +97,18 @@
         // initialize btn edit
         $('body').on('click', '.editPegawai', function() {
             //$.LoadingOverlay("show");
-            var pegawaidetail_id = $(this).data('id');
-            var pegawai_id = $(this).data('pegawai');
-            $.get("{{ route('pegawai.index') }}" + '/' + pegawaidetail_id + '/edit', function(data) {
-                $('#editBtn').val("edit-pegawai");
+            var pegawai_id = $(this).data('id');
+            $.get("{{ route('pegawai.index') }}" + '/' + pegawai_id + '/edit', function(data) {
+                $('#editBtn').val("edit pegawai");
                 $('#modaleditPegawai').modal('show');
-                $('#pegawai_id').val(data.pegawai);
-                $('#pegawaidetail_id').val(data.id);
-                $('#nama').val(data.nama);
-
+                $('#editpegawai_id').val(data.pegawai.id);
+                $('#editpegawaidetail_id').val(data.pegawaidetail.id);
+                $('#editnip').val(data.pegawai.nip);
+                $('#editnama').val(data.pegawai.nama);
+                $('#editjenis_kelamin').val(data.pegawaidetail.jenis_kelamin);
+                $('#editno_hp').val(data.pegawaidetail.no_hp);
+                $('#editalamat').val(data.pegawaidetail.alamat);
+                $('#editnip').prop('disabled', true);
             })
             //$.LoadingOverlay("hide");
         });
@@ -135,6 +139,33 @@
             //$.LoadingOverlay("hide");
         });
 
+        // initialize btn edit
+        $('#editBtn').click(function(e) {
+            //$.LoadingOverlay("show");
+            e.preventDefault();
+            var frm = $('#formeditPegawai');
+            var formData = new FormData(frm[0]);
+            $.ajax({
+                            data: formData,
+                            url: "{{ route('pegawai.update') }}",
+                            type: "POST",
+                            processData: false,
+                            contentType: false,
+                            success: function(data) {
+                                $('#formeditPegawai').trigger("reset");
+                                $('#modaleditPegawai').modal('hide');
+                                swal_success(data.message);
+                                table.draw();
+    
+                            },
+                            error: function(data) {
+                                swal_error();
+                                $('#editBtn').html('Save Changes');
+                            }
+                        });
+            //$.LoadingOverlay("hide");
+        });
+
         $(function() {
             $('#myclose').click(function(e) {
                 e.preventDefault();
@@ -147,7 +178,7 @@
         // initialize btn delete
         $('body').on('click', '.deletePegawai', function() {
            
-            var pegawai_id = $(this).data("pegawai");
+            var pegawai_id = $(this).data("id");
             var name = $(this).data("nama");
 
             Swal.fire({

@@ -108,7 +108,7 @@
     </div>
   </div>
 
-  <!--Modal Tambah Pegawai-->
+  <!--Modal edit Pegawai-->
   <div class="modal fade" id="modaleditPegawai" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="EditPegawaiModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
@@ -123,30 +123,30 @@
             <div class="form-group">
                 <div class="fv-row mb-3">
                 <label class="d-block fw-bold fs-6 mb-2 required">NIP</label>
-                    <input type="text" name="nip" class="form-control" id="nip"
+                    <input type="text" name="nip" class="form-control" id="editnip"
                         placeholder="NIP Pegawai">
                 </div>
                 <div class="fv-row mb-3">
                   <label class="d-block fw-bold fs-6 mb-2 required">Nama</label>
-                      <input type="text" name="nama" class="form-control" id="nama"
+                      <input type="text" name="nama" class="form-control" id="editnama"
                           placeholder="Nama Pegawai">
                 </div>
-                <input type="hidden" name="pegawai_id" id="pegawai_id" value="">
+                <input type="hidden" name="pegawai_id" id="editpegawai_id" value="">
                 <div class="fv-row mb-3 row">
                   <label class="d-block fw-bold fs-6 mb-2 col-4 ">Jenis Kelamin</label>
                   <fieldset id="jenis_kelamin" class="row ms-1 col-6">
                       <div class="form-check col-4 form-check-custom form-check-solid">
-                          <input class="form-check-input" type="radio" name="jenis_kelamin" 
-                          id="jenis_kelamin_true"
+                          <input class="form-check-input" type="radio" name="editjenis_kelamin" 
+                          id="editjenis_kelamin_true"
                           value="1" />
                           <label class="form-check-label" for="jenis_kelamin_true">
                               Laki-laki
                           </label>
                       </div>
                       <div class="form-check col-4 form-check-custom form-check-solid">
-                          <input class="form-check-input" type="radio" name="jenis_kelamin" id="jenis_kelamin_false"
+                          <input class="form-check-input" type="radio" name="editjenis_kelamin" id="jenis_kelamin_false"
                               value="0" />
-                          <label class="form-check-label" for="jenis_kelamin_false">
+                          <label class="form-check-label" for="editjenis_kelamin_false">
                               Perempuan
                           </label>
                       </div>
@@ -154,16 +154,16 @@
               </div>
                 <div class="fv-row mb-3">
                 <label class="d-block fw-bold fs-6 mb-2">No HP</label>
-                      <input type="text" name="no_hp" class="form-control" id="no_hp"
+                      <input type="text" name="no_hp" class="form-control" id="editno_hp"
                           placeholder="No hp">
                 </div>
                 <div class="fv-row mb-3">
                 <label class="d-block fw-bold fs-6 mb-2">Alamat</label>
-                        <input type="text" name="alamat" class="form-control" id="alamat"
+                        <input type="text" name="alamat" class="form-control" id="editalamat"
                             placeholder="Alamat Tempat Tinggal">
                 </div>
             </div>
-            <input type="hidden" name="pegawaidetail_id" id="pegawaidetail_id" value="">
+            <input type="hidden" name="pegawaidetail_id" id="editpegawaidetail_id" value="">
         </form>
         </div>
         <div class="modal-footer">

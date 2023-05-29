@@ -106,6 +106,47 @@ class PegawaiController extends Controller
         }
         
     }
+    
+    public function update(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'nip' => 'required|integer',
+                'nama'=>'required|string|unique:m_pegawai,nama'.$request->id,
+            ],[
+                'nip.required'=>'NIP tidak boleh kosong',
+                'nip.integer'=>'NIP harus berupa angka',
+                'nama.required'=>'Nama tidak boleh kosong',
+                'nama.string'=>'Nama harus berupa string',
+                'name.unique'=>'Nama sudah ada'
+            ]
+        );
+        if($validator->fails()){
+            return response()->json(['message'=>$validator->errors()->first()]);
+        }else{
+            try{
+                $pegawaiData = [
+                    'nip' => $request->input('editnip'),
+                    'nama' => $request->input('editnama'),
+                ];
+    
+                $pegawaidetailData = [
+                    'jenis_kelamin' => $request->input('editjenis_kelamin'),
+                    'no_hp' => $request->input('editno_hp'),
+                    'alamat' => $request->input('editalamat')
+                ];
+    
+                Pegawai::where('id', $request->id)->update($pegawaiData);
+                PegawaiDetail::where('pegawai', $request->id)->update($pegawaidetailData);
+
+                return response()->json(["message" => "Pegawai berhasil diperbarui"]);
+            }catch(\Exception $e){
+                return response()->json(["message" => $e->getMessage()]);
+            }
+        }
+        
+    }
 
     /**
      * Display the specified resource.
@@ -120,31 +161,27 @@ class PegawaiController extends Controller
      */
     public function edit($id)
     {
-        $Pegawaidetail = PegawaiDetail::find($id);
-        return response()->json($Pegawaidetail);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+        $pegawais = Pegawai::find($id);
+        $pegawaidetails = PegawaiDetail::where('pegawai',$id)->first();
+        $data = [
+            'pegawai'=>$pegawais,
+            'pegawaidetail'=>$pegawaidetails
+        ];
+        return response()->json($data);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($pegawai)
+    public function destroy($id)
     {
-        $pegawais = Pegawai::find($pegawai); 
-
-        try {
-            $pegawaidetails = PegawaiDetail::where('pegawai', $pegawai)->get();
-            $pegawaidetails->delete();
-            $qrcodes = MQrcode::where('pegawai', $pegawai)->get();
-            $qrcodes->delete();
+        $pegawais = Pegawai::find($id); 
+        try { 
             $pegawais->delete();
+            $pegawaidetails = PegawaiDetail::where('pegawai', $id)->get();
+            $pegawaidetails->delete();
+            $qrcodes = MQrcode::where('pegawai', $id)->get();
+            $qrcodes->delete();
             return response()->json(["message" => "Data berhasil dihapus!"]);
         } catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()]);
