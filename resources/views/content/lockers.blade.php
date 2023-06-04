@@ -17,7 +17,6 @@
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Locker</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">QR Code</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="width:200px;">Aksi</th>
                     </tr>
                   </thead>
                   <tbody class="text-center">

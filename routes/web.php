@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApiControlController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LockerController;
 use App\Http\Controllers\HistoryController;
@@ -19,11 +20,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('login',[LoginController::class,'index'])->name('login')->middleware('guest');
-Route::post('login',[LoginController::class,'authenticate']); 
-
-Route::get('dashboard', function () {
-    return view('content.dashboard');
-});
+Route::post('login',[LoginController::class,'authenticate']);
+Route::post('logout',[LoginController::class,'logout']);
 Route::get('controls', function () {
     return view('content.controls');
 })->middleware('auth');
@@ -31,6 +29,6 @@ Route::resource('qrcode', QRCodeController::class)->middleware('auth');
 Route::resource('pegawai', PegawaiController::class)->middleware('auth');
 Route::resource('lockers', LockerController::class)->middleware('auth');
 Route::resource('history', HistoryController::class)->middleware('auth');
-
+Route::get('dashboard',[DashboardController::class, 'index'])->middleware('auth');
 Route::get('/get-status/loker1/{id}',[ApiControlController::class, 'loker1']);
 Route::get('/kirim-status/loker1/{id}/status',[ApiControlController::class, 'kirim_status_loker1']);

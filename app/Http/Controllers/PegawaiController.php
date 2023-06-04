@@ -195,4 +195,5 @@ class PegawaiController extends Controller
     } else {
         return 'Perempuan';
     }}
+
 }

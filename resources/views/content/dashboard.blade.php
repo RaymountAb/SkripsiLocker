@@ -14,13 +14,13 @@
                 <div class="numbers">
                   <p class="text-sm mb-0 text-capitalize font-weight-bold">Jumlah Pegawai</p>
                   <h5 class="font-weight-bolder text-center mt-2 mb-0">
-                    155 Orang
+                    {{$jmlhpegawai}} Orang
                   </h5>
                 </div>
               </div>
               <div class="col-4 text-center">
                 <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                  <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                  <i class="ni ni-single-02 text-lg opacity-10" aria-hidden="true"></i>
                 </div>
               </div>
             </div>
@@ -35,13 +35,13 @@
                 <div class="numbers">
                   <p class="text-sm mb-0 text-capitalize font-weight-bold">Jumlah Loker Kosong</p>
                   <h5 class="font-weight-bolder text-center mt-2 mb-0">
-                    3
+                    {{$jmlhlocker}}
                   </h5>
                 </div>
               </div>
               <div class="col-4 text-center">
                 <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                  <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+                  <i class="ni ni-collection text-lg opacity-10" aria-hidden="true"></i>
                 </div>
               </div>
             </div>

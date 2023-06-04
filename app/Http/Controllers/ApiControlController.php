@@ -13,7 +13,7 @@ class ApiControlController extends Controller
         //return $data;
         $data = Locker::findOrFail($id);
         $status = $data->status ? true : false;
-
+        
         return response()->json(['status'=>$status]);
     }
 

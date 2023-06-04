@@ -26,16 +26,6 @@ class LockerController extends Controller
                 ->addColumn('status', function($data) {
                     return $this->getStatus($data->status);
                 })
-                ->addColumn('action', function ($row) {
-                    $btn = '    <div class="btn-group " role="group" aria-label="Toolbar with button groups">
-                        <div  data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="btn btn-warning btn-sm edit editLocker" data-toggle="modal"><i class="fa fa-edit"></i> Edit</div> ';
-
-
-                    $btn = $btn . '  <div data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-sm btn-danger deleteLocker"><i class="fa fa-trash"></i> Hapus</div> </div>';
-
-                    return $btn;
-                })
-                ->rawColumns(['action'])
                 ->make(true);
         }
         return view('content.lockers', $data);
