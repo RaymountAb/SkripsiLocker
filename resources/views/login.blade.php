@@ -4,8 +4,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/Elocker-logo.png">
+  <link rel="icon" type="image/png" href="../assets/img/Elocker-logo.ico">
   <title>
     Login Admin Locker
   </title>
@@ -66,17 +66,11 @@
                     </div>
                   </form>
                 </div>
-                <div class="card-footer text-center pt-0 px-lg-2 px-1">
-                  <p class="mb-4 text-sm mx-auto">
-                    Don't have an account?
-                    <a href="javascript:;" class="text-info text-gradient font-weight-bold">Sign up</a>
-                  </p>
-                </div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
-                <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6" style="background-image:url('../assets/img/curved-images/curved8.jpg')"></div>
+                <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6" style="background-image:url('../assets/img/background-login.png')"></div>
               </div>
             </div>
           </div>
