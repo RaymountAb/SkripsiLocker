@@ -8,10 +8,11 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $jmlhpegawai = Pegawai::count();
         $jmlhlocker = Locker::count();
-        return view('content.dashboard',['jmlhpegawai'=>$jmlhpegawai,'jmlhlocker'=>$jmlhlocker]);
+        $qrcodeResult = $request->input('qrcode_result');
+        return view('content.dashboard',['jmlhpegawai'=>$jmlhpegawai,'jmlhlocker'=>$jmlhlocker,'qrcodeResult'=>$qrcodeResult]);
     }
 }

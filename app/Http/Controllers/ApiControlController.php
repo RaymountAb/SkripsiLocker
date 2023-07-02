@@ -7,35 +7,43 @@ use Illuminate\Http\Request;
 
 class ApiControlController extends Controller
 {
-    /*public function index()
+    public function getStatusLoker1($id)
     {
-        $lockers = Locker::all();
-
-        return view('content.manual', compact('lockers'));
+        /*$locker = Locker::findOrFail($id);
+        return response()->json([
+            'status' => $locker->status,
+        ]);*/
+        $data = Locker::where('id', $id)->first()->status;
+        return $data;
     }
 
-    public function update(Request $request, $id)
+    public function getStatusLoker2($id)
     {
-        $locker = Locker::findOrFail($id);
-        $locker->status = $request->input('status', false);
-        $locker->save();
-
-        return response()->json(['message' => 'Status updated successfully.']);
-    }*/
-    public function index()
-    {
-        $lockers = Locker::all();
-
-        return view('content.controls', compact('lockers'));
+        /*$locker = Locker::findOrFail($id);
+        return response()->json([
+            'status' => $locker->status,
+        ]);*/
+        $data = Locker::where('id', $id)->first()->status;
+        return $data;
     }
 
-    public function update(Request $request, $id)
+    public function getStatusLoker3($id)
     {
-        $locker = Locker::findOrFail($id);
-        $locker->status = $request->input('status');
-        $locker->save();
-
-        return redirect()->back()->with('success', 'Status updated successfully.');
+        /*$locker = Locker::findOrFail($id);
+        return response()->json([
+            'status' => $locker->status,
+        ]);*/
+        $data = Locker::where('id', $id)->first()->status;
+        return $data;
     }
 
+    public function getStatusLoker4($id)
+    {
+        /*$locker = Locker::findOrFail($id);
+        return response()->json([
+            'status' => $locker->status,
+        ]);*/
+        $data = Locker::where('id', $id)->first()->status;
+        return $data;
+    }
 }

@@ -19,7 +19,7 @@
         url: 'controls/' + lockerId,
         type: 'POST',
         data: {
-          _method: 'PUT',
+          //_method: 'PUT',
           status: lockerStatus
         },
         success: function(response) {
