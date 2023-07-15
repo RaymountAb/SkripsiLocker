@@ -21,8 +21,17 @@ class MQrcode extends Model
         'qrcode'
     ];
 
+    public function locker()
+    {
+        return $this->hasOne(Locker::class);
+    }
     public function pegawai()
     {
         return $this->belongsTo(Pegawai::class);
+    }
+
+    public function histories()
+    {
+        return $this->hasMany(History::class);
     }
 }

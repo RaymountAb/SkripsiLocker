@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Locker;
 use App\Models\Pegawai;
+use App\Models\Result;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller

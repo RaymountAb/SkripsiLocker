@@ -26,6 +26,7 @@ Route::post('login',[LoginController::class,'authenticate']);
 Route::post('logout',[LoginController::class,'logout']);
 
 //Web Content
+Route::get("/", function () {return view('login');});
 Route::resource('qrcode', QRCodeController::class)->middleware('auth');
 Route::resource('pegawai', PegawaiController::class)->middleware('auth');
 Route::resource('lockers', LockerController::class)->middleware('auth');
@@ -39,3 +40,5 @@ Route::get('api/get-status/loker1/{id}', [ApiControlController::class,'getStatus
 Route::get('api/get-status/loker2/{id}', [ApiControlController::class,'getStatusLoker2'] );
 Route::get('api/get-status/loker3/{id}', [ApiControlController::class,'getStatusLoker3'] );
 Route::get('api/get-status/loker4/{id}', [ApiControlController::class,'getStatusLoker4'] );
+Route::get('api/check-qrcode/{payload}', [ApiControlController::class,'check_qrcode'] );
+Route::get('api/end-session/{id}', [ApiControlController::class,'endsession'] );

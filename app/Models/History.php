@@ -11,6 +11,7 @@ class History extends Model
 
     protected $table = 'loghistory';
     protected $primarykey = 'id';
+    public $timestamps = true;
     public $incrementing = true;
     protected $fillable = [
         'date',
@@ -19,4 +20,13 @@ class History extends Model
         'pegawai',
         'activity'
     ];
+
+    public function pegawai()
+    {
+        return $this->belongsTo(MQrcode::class);
+    }
+    public function loker()
+    {
+        return $this->belongsTo(Locker::class);
+    }
 }

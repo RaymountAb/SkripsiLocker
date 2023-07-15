@@ -27,11 +27,11 @@
             dom: 'Bfrtip',
             lengthMenu: [
                 [10, 25, 50, -1],
-                ['10 rows', '25 rows', '50 rows', 'Show all']
+                ['10', '25', '50', 'Semua']
             ],
             language: {
-                "lengthMenu": "Tampilkan _MENU_ baris",
-                "info": "Menampilkan _START_ sampai _END_ dari total _TOTAL_ data",
+                "lengthMenu": "Tampilkan _MENU_ Data",
+                "info": "Tampil _START_ sampai _END_ dari total _TOTAL_ data",
                 "infoEmpty": "Tidak ada data yang tersedia",
                 "infoFiltered": "(di-filter dari _MAX_ total data)",
                 "search": "Cari:",

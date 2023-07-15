@@ -22,6 +22,14 @@ class Locker extends Model
         'status',
         'qrcode'
     ];
-
+    
+    public function qrcodes()
+    {
+        return $this->belongsTo(MQrcode::class);
+    }
+    public function histories()
+    {
+        return $this->hasMany(History::class);
+    }
 
 }
