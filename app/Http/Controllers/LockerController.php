@@ -15,7 +15,7 @@ class LockerController extends Controller
     public function index(Request $request)
     {
         $data = [
-            'title' => 'Tabel Locker',
+            'title' => 'Tabel Loker',
             'page' => 'locker',
         ];
 

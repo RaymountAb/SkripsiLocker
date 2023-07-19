@@ -24,7 +24,7 @@ class PegawaiController extends Controller
             'page'=>'pegawai',
             'pegawai'=>Pegawai::all(),
         ];
-        
+
         if ($request->ajax()) {
             $q_pegawaidetail = PegawaiDetail::join('m_pegawai', 'm_pegawai.id', 'm_pegawaidetail.pegawai')
                 ->select('m_pegawaidetail.*', 'm_pegawai.nama as pegawai_nama', 'm_pegawai.nip as pegawai_nip')
@@ -98,15 +98,15 @@ class PegawaiController extends Controller
                 $pegawaidetail->no_hp = $request->input('no_hp');
                 $pegawaidetail->alamat = $request->input('alamat');
                 $pegawaidetail->save();
-                
+
                 return response()->json(["message" => "Pegawai berhasil diperbarui"]);
             }catch(\Exception $e){
                 return response()->json(["message" => $e->getMessage()]);
             }
         }
-        
+
     }
-    
+
     public function update(Request $request)
     {
         $validator = Validator::make(
@@ -130,13 +130,13 @@ class PegawaiController extends Controller
                     'nip' => $request->input('editnip'),
                     'nama' => $request->input('editnama'),
                 ];
-    
+
                 $pegawaidetailData = [
                     'jenis_kelamin' => $request->input('editjenis_kelamin'),
                     'no_hp' => $request->input('editno_hp'),
                     'alamat' => $request->input('editalamat')
                 ];
-    
+
                 Pegawai::where('id', $request->id)->update($pegawaiData);
                 PegawaiDetail::where('pegawai', $request->id)->update($pegawaidetailData);
 
@@ -145,7 +145,7 @@ class PegawaiController extends Controller
                 return response()->json(["message" => $e->getMessage()]);
             }
         }
-        
+
     }
 
     /**
@@ -175,8 +175,8 @@ class PegawaiController extends Controller
      */
     public function destroy($id)
     {
-        $pegawais = Pegawai::find($id); 
-        try { 
+        $pegawais = Pegawai::find($id);
+        try {
             $pegawais->delete();
             $pegawaidetails = PegawaiDetail::where('pegawai', $id)->get();
             $pegawaidetails->delete();

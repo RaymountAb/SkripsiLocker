@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\History;
 use App\Models\Locker;
-use App\Models\MQrcode;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -22,7 +21,7 @@ class HistoryController extends Controller
             'loker'=>Locker::all(),
             'pegawai'=>Pegawai::all(),
         ];
-        
+
         if ($request->ajax()) {
             $q_history = History::join('m_locker','m_locker.id','loghistory.loker')
                 ->join('m_pegawai','m_pegawai.id','loghistory.pegawai')

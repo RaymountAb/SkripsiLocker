@@ -16,11 +16,11 @@ class QRCodeController extends Controller
     public function index(Request $request)
     {
         $data = [
-            'title'=> 'Tabel Qrcode',
+            'title'=> 'Tabel QR Code',
             'page'=>'qrcode',
             'pegawai'=>Pegawai::all(),
         ];
-        
+
         if ($request->ajax()) {
             //$q_qrcodes = Qrcode::select('*')->orderByDesc('pegawai');
             $q_qrcodes = MQrcode::join('m_pegawai', 'm_pegawai.id', 'm_qrcode.pegawai')

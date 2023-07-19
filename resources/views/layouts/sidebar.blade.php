@@ -46,7 +46,7 @@
               </g>
             </svg>
           </div>
-          <span class="nav-link-text ms-1">Master Pegawai</span>
+          <span class="nav-link-text ms-1">Manajemen Pegawai</span>
         </a>
       </li>
       <li class="nav-item">
@@ -66,7 +66,7 @@
               </g>
             </svg>
           </div>
-          <span class="nav-link-text ms-1">Data QR-Code</span>
+          <span class="nav-link-text ms-1">Manajemen QR Code</span>
         </a>
       </li>
       <li class="nav-item">
@@ -86,7 +86,7 @@
               </g>
             </svg>
           </div>
-          <span class="nav-link-text ms-1">Data Locker</span>
+          <span class="nav-link-text ms-1">Manajemen Loker</span>
         </a>
       </li>
       <li class="nav-item">
@@ -128,7 +128,7 @@
               </g>
             </svg>
           </div>
-          <span class="nav-link-text ms-1">Manual Control</span>
+          <span class="nav-link-text ms-1">Kontrol Manual</span>
         </a>
       </li>
     </ul>
