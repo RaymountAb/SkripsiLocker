@@ -35,7 +35,7 @@
                 <div class="numbers">
                   <p class="text-sm mb-0 text-capitalize font-weight-bold">Jumlah Loker Kosong</p>
                   <h5 class="font-weight-bolder text-center mt-2 mb-0">
-                    {{$jmlhlocker}}
+                    {{$jmlhkosong}} dari {{$jmlhlocker}} Loker
                   </h5>
                 </div>
               </div>

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Locker;
 use Yajra\DataTables\Facades\DataTables;
-use App\Models\Qrcode;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Http\Request;
 
 class LockerController extends Controller
@@ -20,12 +20,20 @@ class LockerController extends Controller
         ];
 
         if ($request->ajax()) {
-            $q_locker = Locker::select('*')->orderByDesc('id');
+            $q_locker = Locker::select('*')->orderBy('id');
             return Datatables::of($q_locker)
                 ->addIndexColumn()
                 ->addColumn('status', function($data) {
                     return $this->getStatus($data->status);
                 })
+                ->addColumn('qrcode', function($q_locker) {
+                    if ($q_locker->qrcode) {
+                        return QrCode::size(150)->generate($q_locker->qrcode);
+                    } else {
+                        return 'Loker Kosong';
+                    }
+                })
+                ->rawColumns(['qrcode'])
                 ->make(true);
         }
         return view('content.lockers', $data);

@@ -13,7 +13,8 @@ class DashboardController extends Controller
     {
         $jmlhpegawai = Pegawai::count();
         $jmlhlocker = Locker::count();
+        $jmlhkosong = Locker::whereNull('qrcode')->count();
         $qrcodeResult = $request->input('qrcode_result');
-        return view('content.dashboard',['jmlhpegawai'=>$jmlhpegawai,'jmlhlocker'=>$jmlhlocker,'qrcodeResult'=>$qrcodeResult]);
+        return view('content.dashboard',['jmlhpegawai'=>$jmlhpegawai,'jmlhlocker'=>$jmlhlocker,'jmlhkosong'=>$jmlhkosong,'qrcodeResult'=>$qrcodeResult]);
     }
 }
