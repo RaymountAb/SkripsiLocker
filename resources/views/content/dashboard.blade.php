@@ -49,12 +49,6 @@
         </div>
       </div>
     </div>
-    <div class="row mt-4 text-center">
-      <label>Hasil Baca QR Code</label>
-      <div class="mb-3 text-center">
-        <input class="text-center" type="text" placeholder="QrCodeResult" aria-label="QrCodeResult" value="<?php echo $qrcodeResult; ?>" readonly>
-      </div>
-    </div>
     <div class="row mt-4">
       <div class="col-lg-7 mb-lg-0 mb-4">
         <div class="card">

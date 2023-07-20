@@ -43,7 +43,7 @@
                 }
             },
             ajax: "{{ route('pegawai.index') }}",
-            columns: [{ 
+            columns: [{
                 data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
                     orderable: false,
@@ -129,7 +129,7 @@
                                 $('#modalPegawai').modal('hide');
                                 swal_success(data.message);
                                 table.draw();
-    
+
                             },
                             error: function(data) {
                                 swal_error();
@@ -146,23 +146,22 @@
             var frm = $('#formeditPegawai');
             var formData = new FormData(frm[0]);
             $.ajax({
-                            data: formData,
-                            url: "{{ route('pegawai.store') }}",
-                            type: "POST",
-                            processData: false,
-                            contentType: false,
-                            success: function(data) {
-                                $('#formeditPegawai').trigger("reset");
-                                $('#modaleditPegawai').modal('hide');
-                                swal_success(data.message);
-                                table.draw();
-    
-                            },
-                            error: function(data) {
-                                swal_error();
-                                $('#editBtn').html('Save Changes');
-                            }
-                        });
+                data: formData,
+                url: "{{ route('pegawai.store') }}",
+                type: "PUT", // Change the method to PUT
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    $('#formeditPegawai').trigger("reset");
+                    $('#modaleditPegawai').modal('hide');
+                    swal_success(data.message);
+                    table.draw();
+                },
+                error: function(data) {
+                    swal_error();
+                    $('#editBtn').html('Save Changes');
+                }
+            });
             //$.LoadingOverlay("hide");
         });
 
@@ -177,7 +176,7 @@
 
         // initialize btn delete
         $('body').on('click', '.deletePegawai', function() {
-           
+
             var pegawai_id = $(this).data("id");
             var name = $(this).data("nama");
 
