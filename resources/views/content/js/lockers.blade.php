@@ -29,7 +29,7 @@
                     }
                 ]
             });
-        
+
         // csrf token
         $.ajaxSetup({
             headers: {

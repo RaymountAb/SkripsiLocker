@@ -11,67 +11,12 @@ use Ramsey\Uuid\Uuid;
 
 class ApiControlController extends Controller
 {
-    public function getStatusLoker1($id)
+    public function getStatusLoker($id)
     {
-        /*$locker = Locker::findOrFail($id);
-        return response()->json([
-            'status' => $locker->status,
-        ]);*/
         $data = Locker::where('id', $id)->first()->status;
         return $data;
     }
 
-    public function getStatusLoker2($id)
-    {
-        /*$locker = Locker::findOrFail($id);
-        return response()->json([
-            'status' => $locker->status,
-        ]);*/
-        $data = Locker::where('id', $id)->first()->status;
-        return $data;
-    }
-
-    public function getStatusLoker3($id)
-    {
-        /*$locker = Locker::findOrFail($id);
-        return response()->json([
-            'status' => $locker->status,
-        ]);*/
-        $data = Locker::where('id', $id)->first()->status;
-        return $data;
-    }
-
-    public function getStatusLoker4($id)
-    {
-        /*$locker = Locker::findOrFail($id);
-        return response()->json([
-            'status' => $locker->status,
-        ]);*/
-        $data = Locker::where('id', $id)->first()->status;
-        return $data;
-    }
-
-    /*public function send_qrcode(Request $request)
-    {
-        $qrCodeResult = $request->input('payload');
-
-        $locker = Locker::where('qrcode', $qrCodeResult)->first();
-
-        if ($locker){
-            Locker::where('id', $locker->id)->update([
-                'status' => '1'
-            ]);
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Loker berhasil dibuka'
-            ]);
-        } else{
-            return response()->json([
-                'status' => 'failed',
-                'message' => 'QR Code tidak ditemukan'
-            ]);
-        }
-    }*/
 
     /*public function check_qrcode(Request $request){
 

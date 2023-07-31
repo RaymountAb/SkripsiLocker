@@ -34,11 +34,8 @@ Route::resource('history', HistoryController::class)->middleware('auth');
 Route::get('dashboard',[DashboardController::class, 'index'])->middleware('auth');
 Route::get('controls', [ManualController::class,'index'] )->middleware('auth');
 Route::post('controls/{id}', [ManualController::class,'update'] )->middleware('auth');
-
+Route::get('/getqrcodelist', [QRCodeController::class,'getQrcodeList'] )->middleware('auth');
 //Web API Alat
-Route::get('api/get-status/loker1/{id}', [ApiControlController::class,'getStatusLoker1'] );
-Route::get('api/get-status/loker2/{id}', [ApiControlController::class,'getStatusLoker2'] );
-Route::get('api/get-status/loker3/{id}', [ApiControlController::class,'getStatusLoker3'] );
-Route::get('api/get-status/loker4/{id}', [ApiControlController::class,'getStatusLoker4'] );
+Route::get('api/get-status/loker/{id}', [ApiControlController::class,'getStatusLoker'] );
 Route::get('api/check-qrcode/{payload}', [ApiControlController::class,'check_qrcode'] );
 Route::get('api/end-session/{id}', [ApiControlController::class,'endsession'] );

@@ -30,7 +30,7 @@ class LockerController extends Controller
                     if ($q_locker->qrcode) {
                         return QrCode::size(150)->generate($q_locker->qrcode);
                     } else {
-                        return 'Loker Kosong';
+                        return ' <button class="btn btn-sm btn-success addQrCode" data-locker-id="' . $q_locker->id . '">Tambah QR Code</button>';
                     }
                 })
                 ->rawColumns(['qrcode'])
