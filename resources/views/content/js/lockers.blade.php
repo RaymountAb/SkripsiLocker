@@ -26,7 +26,13 @@
                     {
                         data: 'qrcode',
                         name: 'qrcode'
-                    }
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
                 ]
             });
 

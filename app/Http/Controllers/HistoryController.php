@@ -26,6 +26,7 @@ class HistoryController extends Controller
             $q_history = History::join('m_locker','m_locker.id','loghistory.loker')
                 ->join('m_pegawai','m_pegawai.id','loghistory.pegawai')
                 ->select('loghistory.*','m_locker.name_loker as loker','m_pegawai.nama as pegawai')
+                ->orderBy('loghistory.id', 'desc')
                 ->get();
             return DataTables::of($q_history)
                 ->addIndexColumn()

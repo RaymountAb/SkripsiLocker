@@ -30,10 +30,15 @@ class LockerController extends Controller
                     if ($q_locker->qrcode) {
                         return QrCode::size(150)->generate($q_locker->qrcode);
                     } else {
-                        return ' <button class="btn btn-sm btn-success addQrCode" data-locker-id="' . $q_locker->id . '">Tambah QR Code</button>';
+                        return 'Belum ada QR Code';
                     }
                 })
                 ->rawColumns(['qrcode'])
+                ->addColumn('action', function($q_locker){
+                    $btn = '  <div data-toggle="tooltip"  data-id="' . $q_locker->id . '" data-original-title="Delete" class="btn btn-sm btn-danger deleteLocker"> Hapus </div>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
                 ->make(true);
         }
         return view('content.lockers', $data);
