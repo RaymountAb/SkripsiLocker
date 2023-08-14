@@ -8,6 +8,7 @@ use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\QRCodeController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\ManualController;
+use Illuminate\Cache\Lock;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,7 +35,7 @@ Route::resource('history', HistoryController::class)->middleware('auth');
 Route::get('dashboard',[DashboardController::class, 'index'])->middleware('auth');
 Route::get('controls', [ManualController::class,'index'] )->middleware('auth');
 Route::post('controls/{id}', [ManualController::class,'update'] )->middleware('auth');
-Route::get('/getqrcodelist', [QRCodeController::class,'getQrcodeList'] )->middleware('auth');
+Route::post('update/qrcode',LockerController::class,'update_qrcode' )->middleware('auth');
 //Web API Alat
 Route::get('api/get-status/loker/{id}', [ApiControlController::class,'getStatusLoker'] );
 Route::get('api/check-qrcode/{payload}', [ApiControlController::class,'check_qrcode'] );
