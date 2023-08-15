@@ -99,4 +99,18 @@ class LockerController extends Controller
     } else {
         return 'Tidak Aktif';
     }}
+
+    public function deleteAkses($id)
+    {
+        try {
+            $locker = Locker::findOrFail($id);
+            $locker->update([
+                'qrcode' => null,
+            ]);
+
+            return response()->json(['message' => 'Kolom diubah menjadi null dengan sukses'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Terjadi kesalahan saat mengubah kolom', 'error' => $e->getMessage()], 500);
+        }
+    }
 }
