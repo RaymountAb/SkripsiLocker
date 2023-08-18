@@ -18,7 +18,7 @@
                   <p class="text-sm mb-0 text-capitalize font-weight-bold">Users</p>
                   <div class="form-check form-switch ps-0 ">
                     <input class="form-check-input mt-1 ms-auto" type="checkbox" name="status" id="status{{ $locker->id }}" data-id="{{ $locker->id }}" data-status="{{ $locker->status ? '1' : '0' }}" {{ $locker->status ? 'checked' : '' }}>
-                    <label class="form-check-label" for="status{{ $locker->id }}">{{ $locker->status ? 'ON' : 'OFF' }}</label>
+                    <label class="form-check-label" for="status{{ $locker->id }}">{{ $locker->status ? 'BUKA' : 'TUTUP' }}</label>
                   </div>
                 </div>
                 <div class="col-4 text-end">

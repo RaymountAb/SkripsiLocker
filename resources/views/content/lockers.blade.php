@@ -31,28 +31,29 @@
     </div>
 
     <!-- Modal Tambah QR Code -->
-<div class="modal fade" id="addQrCodeModal" tabindex="-1" role="dialog" aria-labelledby="addQrCodeModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addQrCodeModalLabel">Tambah QR Code</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="formAddQrCode" data-locker-id="">
-                    @csrf
-                    <div class="form-group">
-                        <label for="employeeSelect">Pilih Pegawai:</label>
-                        <select class="form-control" id="employeeSelect" name="employee_id"></select>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+    <div class="modal fade" id="addQrCodeModal" tabindex="-1" role="dialog" aria-labelledby="addQrCodeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addQrCodeModalLabel">Tambah QR Code Pegawai</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Form untuk memilih pegawai -->
+                    <!-- Contoh: <select name="pegawai_id" id="pegawai_id">
+                              <option value="1">Pegawai 1</option>
+                              <option value="2">Pegawai 2</option>
+                          </select> -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" id="submitQrCode">Submit</button>
+                </div>
             </div>
         </div>
-    </div>
-</div>
+    </div
 
   @include('content.js.lockers')
 @endsection

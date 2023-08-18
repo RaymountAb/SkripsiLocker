@@ -106,47 +106,6 @@ class PegawaiController extends Controller
 
     }
 
-    public function update(Request $request)
-    {
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'nip' => 'required|integer',
-                'nama'=>'required|string|unique:m_pegawai,nama'.$request->id,
-            ],[
-                'nip.required'=>'NIP tidak boleh kosong',
-                'nip.integer'=>'NIP harus berupa angka',
-                'nama.required'=>'Nama tidak boleh kosong',
-                'nama.string'=>'Nama harus berupa string',
-                'name.unique'=>'Nama sudah ada'
-            ]
-        );
-        if($validator->fails()){
-            return response()->json(['message'=>$validator->errors()->first()]);
-        }else{
-            try{
-                $pegawaiData = [
-                    'nip' => $request->input('editnip'),
-                    'nama' => $request->input('editnama'),
-                ];
-
-                $pegawaidetailData = [
-                    'jenis_kelamin' => $request->input('editjenis_kelamin'),
-                    'no_hp' => $request->input('editno_hp'),
-                    'alamat' => $request->input('editalamat')
-                ];
-
-                Pegawai::where('id', $request->id)->update($pegawaiData);
-                PegawaiDetail::where('pegawai', $request->id)->update($pegawaidetailData);
-
-                return response()->json(["message" => "Pegawai berhasil diperbarui"]);
-            }catch(\Exception $e){
-                return response()->json(["message" => $e->getMessage()]);
-            }
-        }
-
-    }
-
     /**
      * Display the specified resource.
      */
@@ -194,5 +153,28 @@ class PegawaiController extends Controller
     } else {
         return 'Perempuan';
     }}
+
+    public function update(Request $request, $id)
+    {
+        try {
+            $pegawaiData = [
+                'nip' => $request->input('editnip'),
+                'nama' => $request->input('editnama'),
+            ];
+
+            $pegawaidetailData = [
+                'jenis_kelamin' => $request->input('editjenis_kelamin'),
+                'no_hp' => $request->input('editno_hp'),
+                'alamat' => $request->input('editalamat')
+            ];
+
+            Pegawai::where('id', $id)->update($pegawaiData);
+            PegawaiDetail::where('pegawai', $id)->update($pegawaidetailData);
+
+            return response()->json(["message" => "Pegawai berhasil diperbarui"]);
+        } catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()]);
+        }
+    }
 
 }

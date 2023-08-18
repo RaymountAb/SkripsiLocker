@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Locker;
+use App\Models\MQrcode;
 use Yajra\DataTables\Facades\DataTables;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Http\Request;
@@ -30,15 +31,14 @@ class LockerController extends Controller
                     if ($q_locker->qrcode) {
                         return QrCode::size(150)->generate($q_locker->qrcode);
                     } else {
-                        return 'Belum ada QR Code';
+                        return '<button data-toggle="tooltip" data-id="' . $q_locker->id . '" data-original-title="Tambah" class="btn btn-sm btn-success AddAksesLocker"> Tambah QR Code </button>';
                     }
                 })
-                ->rawColumns(['qrcode'])
                 ->addColumn('action', function($q_locker){
-                    $btn = '  <div data-toggle="tooltip"  data-id="' . $q_locker->id . '" data-original-title="Delete" class="btn btn-sm btn-danger deleteLocker"> Hapus </div>';
+                    $btn = '<button data-toggle="tooltip" data-id="' . $q_locker->id . '" data-original-title="Delete" class="btn btn-sm btn-danger deleteLocker"> Hapus </button>';
                     return $btn;
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['qrcode', 'action'])
                 ->make(true);
         }
         return view('content.lockers', $data);
@@ -95,9 +95,9 @@ class LockerController extends Controller
     public function getStatus($status)
     {
     if ($status == 1) {
-        return 'Aktif';
+        return 'Buka';
     } else {
-        return 'Tidak Aktif';
+        return 'Tutup';
     }}
 
     public function deleteAkses($id)
@@ -106,6 +106,26 @@ class LockerController extends Controller
             $locker = Locker::findOrFail($id);
             $locker->update([
                 'qrcode' => null,
+            ]);
+
+            return response()->json(['message' => 'Kolom diubah menjadi null dengan sukses'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Terjadi kesalahan saat mengubah kolom', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function getpegawai()
+    {
+        $pegawai = MQrcode::all(['id','pegawai']);
+        return response()->json($pegawai);
+    }
+
+    public function updateQrcode(Request $request)
+    {
+        try {
+            $locker = Locker::findOrFail($request->id);
+            $locker->update([
+                'qrcode' => $request->qrcode,
             ]);
 
             return response()->json(['message' => 'Kolom diubah menjadi null dengan sukses'], 200);

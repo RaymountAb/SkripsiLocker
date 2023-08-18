@@ -6,14 +6,14 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        
+
         $('input[type="checkbox"]').on('change', function() {
       var lockerId = $(this).data('id');
       var lockerStatus = $(this).prop('checked') ? 1 : 0;
 
       var checkbox = $('#status' + lockerId);
       checkbox.data('status', lockerStatus ? '1' : '0');
-      checkbox.next('label').text(lockerStatus ? 'ON' : 'OFF');
+      checkbox.next('label').text(lockerStatus ? 'BUKA' : 'TUTUP');
       // Mengirim permintaan Ajax ke server untuk memperbarui status locker
       $.ajax({
         url: 'controls/' + lockerId,
@@ -30,6 +30,6 @@
         }
       });
     });
-        
+
     });
 </script>
