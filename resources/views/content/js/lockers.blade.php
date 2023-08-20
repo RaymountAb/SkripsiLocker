@@ -43,6 +43,45 @@
             }
         });
 
+        // Tambah QR Code
+        $('body').on('click', '.addAksesLocker', function() {
+            var lockerId = $(this).data('id');
+            $('#addpegawai').empty().trigger('change');
+            $('#addQrCodeModal').modal('show');
+
+            // Menangkap perubahan saat memilih pegawai dari modal
+            $('#submitQrCode').on('click', function() {
+                var selectedPegawai = $('#addpegawai').val(); // Menggunakan addpegawai
+                // Mengirim data menggunakan AJAX
+                $.ajax({
+                    url: "{{ route('lockers.addAkses', ':id') }}".replace(':id', lockerId),
+                    type: 'PATCH',
+                    data: {
+                        locker_id: lockerId,
+                        pegawai: selectedPegawai
+                    },
+                    success: function(response) {
+                        // Tindakan setelah permintaan sukses
+                        console.log('Data berhasil diperbarui:', response);
+                        $('#addQrCodeModal').modal('hide');
+                    },
+                    error: function(xhr, status, error) {
+                        // Tindakan jika terjadi kesalahan
+                        console.error('Terjadi kesalahan:', error);
+                    }
+                });
+            });
+        });
+
+        $(function() {
+            $('#myclose').click(function(e) {
+                e.preventDefault();
+
+                $('#addQrCodeModal').modal('hide')
+
+            });
+        });
+
         // delete Akses
         $('body').on('click', '.deleteLocker', function () {
             var id = $(this).data('id');

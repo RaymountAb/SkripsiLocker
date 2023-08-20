@@ -68,7 +68,7 @@ class ApiControlController extends Controller
                     'status' => 'failed',
                     'message' => 'QR Code tidak valid'
                 ]);
-            }            
+            }
         } else{
             //Tidak ada loker dengan qrcode tersebut
             $locker = Locker::whereNull('qrcode')->inRandomOrder()->first();
@@ -100,7 +100,7 @@ class ApiControlController extends Controller
         $qrcode = $request->input('payload', $payload);
         // Cek apakah qrcode sudah terdaftar di database
         $qrcodeData = MQrcode::where('qrcode', $qrcode)->first();
-        
+
         if ($qrcodeData) {
              // Ada Pegawai dengan qrcode tersebut
              $locker = Locker::where('qrcode', $qrcode)->first();
@@ -110,12 +110,12 @@ class ApiControlController extends Controller
                 try {
 
                     $newqrcode = Uuid::uuid4()->toString();
-                    $qrcodeData->update(['qrcode' => $newqrcode]);
+                    //$qrcodeData->update(['qrcode' => $newqrcode]);
                     $locker->update([
                         'status' => '1',
                         'qrcode' => $newqrcode
                     ]);
-                    
+
                     History::create([
                         'date' => date('Y-m-d'),
                         'time' => date('H:i:s'),
@@ -123,8 +123,8 @@ class ApiControlController extends Controller
                         'pegawai' => $qrcodeData->pegawai,
                         'activity' => '2'
                     ]);
-            
-                    
+
+
                     DB::commit();
                     return response()->json([
                         'status' => 'success',
@@ -142,7 +142,7 @@ class ApiControlController extends Controller
                 $locker = Locker::whereNull('qrcode')->inRandomOrder()->first();
                 if ($locker) {
                     $locker->update(['qrcode' => $qrcode]);
-        
+
                     return response()->json([
                         'status' => 'success',
                         'message' => 'QR Code berhasil ditambahkan pada loker yang tidak memiliki QR Code'
@@ -152,7 +152,7 @@ class ApiControlController extends Controller
                         'status' => 'failed',
                         'message' => 'QR Code tidak ada loker yang tidak memiliki QR Code'
                     ]);
-                } 
+                }
             }
         } else {
             // Loker dengan QR Code tidak ditemukan

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Locker;
 use App\Models\MQrcode;
+use App\Models\Pegawai;
 use Yajra\DataTables\Facades\DataTables;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Http\Request;
@@ -18,8 +19,9 @@ class LockerController extends Controller
         $data = [
             'title' => 'Tabel Loker',
             'page' => 'locker',
+            'pegawai'=> Pegawai::all(),
+            'qrcode' => MQrcode::all(),
         ];
-
         if ($request->ajax()) {
             $q_locker = Locker::select('*')->orderBy('id');
             return Datatables::of($q_locker)
@@ -31,7 +33,7 @@ class LockerController extends Controller
                     if ($q_locker->qrcode) {
                         return QrCode::size(150)->generate($q_locker->qrcode);
                     } else {
-                        return '<button data-toggle="tooltip" data-id="' . $q_locker->id . '" data-original-title="Tambah" class="btn btn-sm btn-success AddAksesLocker"> Tambah QR Code </button>';
+                        return '<button data-toggle="tooltip" data-id="' . $q_locker->id . '" data-original-title="Tambah" class="btn btn-sm btn-success addAksesLocker"> Tambah QR Code </button>';
                     }
                 })
                 ->addColumn('action', function($q_locker){
@@ -114,16 +116,10 @@ class LockerController extends Controller
         }
     }
 
-    public function getpegawai()
-    {
-        $pegawai = MQrcode::all(['id','pegawai']);
-        return response()->json($pegawai);
-    }
-
-    public function updateQrcode(Request $request)
+    public  function addAkses(Request $request, $id)
     {
         try {
-            $locker = Locker::findOrFail($request->id);
+            $locker = Locker::findOrFail($id);
             $locker->update([
                 'qrcode' => $request->qrcode,
             ]);

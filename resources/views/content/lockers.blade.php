@@ -30,30 +30,37 @@
       </div>
     </div>
 
-    <!-- Modal Tambah QR Code -->
-    <div class="modal fade" id="addQrCodeModal" tabindex="-1" role="dialog" aria-labelledby="addQrCodeModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addQrCodeModalLabel">Tambah QR Code Pegawai</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- Form untuk memilih pegawai -->
-                    <!-- Contoh: <select name="pegawai_id" id="pegawai_id">
-                              <option value="1">Pegawai 1</option>
-                              <option value="2">Pegawai 2</option>
-                          </select> -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-primary" id="submitQrCode">Submit</button>
+<!-- Modal Tambah QR Code -->
+<div class="modal fade" id="addQrCodeModal" tabindex="-1" role="dialog" aria-labelledby="addQrCodeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addQrCodeModalLabel">Tambah QR Code Pegawai</h5>
+                <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            <div class="modal-body">
+                <div class="fv-row mb-5">
+                    <label class="d-block fw-bold fs-6 mb-2 required">Pilih Pegawai</label>
+                    <select name="qrcode" id="qrcode" class="form-select" data-control="select2"
+                        data-dropdown-parent="#addQrCodeModal" data-placeholder="Pilih Company">
+                        <option></option>
+                        @foreach ($pegawai as $pegawai)
+                        <option value="{{ $pegawai->id }}">
+                            {{ $pegawai->nama }}
+                        </option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
+            <div class="modal-footer">
+                <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal" id="myclose">Close</button>
+                <button type="button" class="btn bg-gradient-primary" id="submitQrCode">Beri Akses</button>
+              </div>
         </div>
-    </div
+    </div>
+</div>
 
   @include('content.js.lockers')
 @endsection

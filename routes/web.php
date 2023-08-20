@@ -37,8 +37,7 @@ Route::get('controls', [ManualController::class,'index'] )->middleware('auth');
 Route::post('controls/{id}', [ManualController::class,'update'] )->middleware('auth');
 Route::patch('lockers/{id}/delete-akses-qrcode', [LockerController::class, 'deleteAkses'])->name('lockers.deleteAkses');
 //Route::patch('/pegawai/{id}', [PegawaiController::class, 'update'])->name('pegawai.update');
-Route::get('/get-pegawai', [PegawaiController::class, 'getPegawai'])->name('pegawai.getpegawai');
-Route::patch('/lockers/update-qrcode', [LockerController::class, 'updateQrcode'])->name('lockers.updateQrcode');
+Route::patch('lockers/{id}/add-akses-qrcode', [LockerController::class, 'addAkses'])->name('lockers.addAkses');
 //Web API Alat
 Route::get('api/get-status/loker/{id}', [ApiControlController::class,'getStatusLoker'] );
 Route::get('api/check-qrcode/{payload}', [ApiControlController::class,'check_qrcode'] );
