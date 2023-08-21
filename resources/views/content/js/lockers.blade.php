@@ -46,40 +46,40 @@
         // Tambah QR Code
         $('body').on('click', '.addAksesLocker', function() {
             var lockerId = $(this).data('id');
-            //$('#addpegawai').empty().trigger('change');
+            $('#addpegawai').empty().trigger('change');
             $('#addQrCodeModal').modal('show');
+        });
 
-            // Menangkap perubahan saat memilih pegawai dari modal
-            $('#submitQrCode').on('click', function() {
-                var selectedPegawai = $('#qrcode').val(); // Menggunakan addpegawai
-                // Mengirim data menggunakan AJAX
-                $.ajax({
-                    data: {
-                        locker_id: lockerId,
-                        pegawai: selectedPegawai
-                    },
-                    url: "{{ route('lockers.addAkses', ':id') }}".replace(':id', lockerId),
-                    type: 'PATCH',
-                    processData: false,
-                    contentType: false,
-                    success: function(data) {
-                        $('#addQrCodeModal').modal('hide');
-                        table.draw();
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success!',
-                            text: 'Akses Berhasil ditambahkan!'
-                        })
-                    },
-                    error: function(data) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Terjadi Kesalahan!'
-                        })
-                    }
-                });
-            });
+        //submit qrcode
+        $('#submitQrCode').click(function(e) {
+            e.preventDefault();
+            var lockerId = $('.addAksesLocker').data('id');
+            var pegawaiId = $('#qrcode').val();
+            $.ajax({
+                url: "{{ route('lockers.addAkses') }}",
+                type: "POST", // Use PATCH request for updating
+                data: {
+                    lockerId: lockerId,
+                    pegawaiId: pegawaiId,
+                    _token: '{{ csrf_token() }}' // Add CSRF token if not already included
+                },
+                success: function(data) {
+                    table.draw();
+                    $('#addQrCodeModal').modal('hide')
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Akses Berhasil ditambahkan!'
+                    })
+                },
+                error: function(data) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Terjadi Kesalahan!'
+                    })
+                }
+            })
         });
 
         $(function() {

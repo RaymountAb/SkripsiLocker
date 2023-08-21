@@ -116,18 +116,27 @@ class LockerController extends Controller
         }
     }
 
-    public  function addAkses(Request $request)
+    public function addAkses(Request $request)
     {
-        $locker = Locker::findOrFail($request->locker_id);
-        $pegawaiId = $request->pegawai;
-        $pegawai = MQrcode::where('pegawai_id', $pegawaiId)->first();
-        try{
+        try {
+            $lockerId = $request->lockerId;
+            $pegawaiId = $request->pegawaiId;
+
+            $locker = Locker::findOrFail($lockerId);
+            $qrcode = MQrcode::where('pegawai', $pegawaiId)->first(); // Tambahkan tanda kurung pada 'first'
+
+            if (!$qrcode) {
+                return response()->json(['message' => 'QR Code tidak ditemukan'], 404);
+            }
+
             $locker->update([
-                'qrcode' => $pegawai->qrcode,
+                'qrcode' => $qrcode->qrcode,
             ]);
+
             return response()->json(['message' => 'Kolom diubah menjadi null dengan sukses'], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Terjadi kesalahan saat mengubah kolom', 'error' => $e->getMessage()], 500);
         }
     }
+
 }
