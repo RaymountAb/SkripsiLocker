@@ -22,9 +22,9 @@ class ApiControlController extends Controller
         $status = $request->input('status', 0);
         $locker = Locker::where('id', $lockerNumber)->firstOrFail();
         if ($locker) {
-            //$locker->update(['status' => $status]);
-            $locker->status = $status;
-            $locker->save();
+            $locker->update(['status' => $status]);
+            /*$locker->status = $status;
+            $locker->save();*/
             return response()->json([
                 'status' => 'success',
                 'message' => 'Status loker berhasil diupdate'
