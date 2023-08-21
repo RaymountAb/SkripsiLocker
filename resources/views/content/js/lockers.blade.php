@@ -46,28 +46,37 @@
         // Tambah QR Code
         $('body').on('click', '.addAksesLocker', function() {
             var lockerId = $(this).data('id');
-            $('#addpegawai').empty().trigger('change');
+            //$('#addpegawai').empty().trigger('change');
             $('#addQrCodeModal').modal('show');
 
             // Menangkap perubahan saat memilih pegawai dari modal
             $('#submitQrCode').on('click', function() {
-                var selectedPegawai = $('#addpegawai').val(); // Menggunakan addpegawai
+                var selectedPegawai = $('#qrcode').val(); // Menggunakan addpegawai
                 // Mengirim data menggunakan AJAX
                 $.ajax({
-                    url: "{{ route('lockers.addAkses', ':id') }}".replace(':id', lockerId),
-                    type: 'PATCH',
                     data: {
                         locker_id: lockerId,
                         pegawai: selectedPegawai
                     },
-                    success: function(response) {
-                        // Tindakan setelah permintaan sukses
-                        console.log('Data berhasil diperbarui:', response);
+                    url: "{{ route('lockers.addAkses', ':id') }}".replace(':id', lockerId),
+                    type: 'PATCH',
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
                         $('#addQrCodeModal').modal('hide');
+                        table.draw();
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: 'Akses Berhasil ditambahkan!'
+                        })
                     },
-                    error: function(xhr, status, error) {
-                        // Tindakan jika terjadi kesalahan
-                        console.error('Terjadi kesalahan:', error);
+                    error: function(data) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Terjadi Kesalahan!'
+                        })
                     }
                 });
             });

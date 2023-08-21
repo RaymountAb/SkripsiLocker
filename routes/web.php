@@ -42,3 +42,4 @@ Route::patch('lockers/{id}/add-akses-qrcode', [LockerController::class, 'addAkse
 Route::get('api/get-status/loker/{id}', [ApiControlController::class,'getStatusLoker'] );
 Route::get('api/check-qrcode/{payload}', [ApiControlController::class,'check_qrcode'] );
 Route::get('api/end-session/{id}', [ApiControlController::class,'endsession'] );
+Route::post('api/update-status/loker/{lockerNumber}',[ApiControlController::class,'updateStatusLoker']);

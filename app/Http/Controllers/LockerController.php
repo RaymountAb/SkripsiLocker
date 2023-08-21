@@ -116,14 +116,15 @@ class LockerController extends Controller
         }
     }
 
-    public  function addAkses(Request $request, $id)
+    public  function addAkses(Request $request)
     {
-        try {
-            $locker = Locker::findOrFail($id);
+        $locker = Locker::findOrFail($request->locker_id);
+        $pegawaiId = $request->pegawai;
+        $pegawai = MQrcode::where('pegawai_id', $pegawaiId)->first();
+        try{
             $locker->update([
-                'qrcode' => $request->qrcode,
+                'qrcode' => $pegawai->qrcode,
             ]);
-
             return response()->json(['message' => 'Kolom diubah menjadi null dengan sukses'], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Terjadi kesalahan saat mengubah kolom', 'error' => $e->getMessage()], 500);

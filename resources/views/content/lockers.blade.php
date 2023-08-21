@@ -44,7 +44,7 @@
                 <div class="fv-row mb-5">
                     <label class="d-block fw-bold fs-6 mb-2 required">Pilih Pegawai</label>
                     <select name="qrcode" id="qrcode" class="form-select" data-control="select2"
-                        data-dropdown-parent="#addQrCodeModal" data-placeholder="Pilih Company">
+                        data-dropdown-parent="#addQrCodeModal" data-placeholder="Pilih Pegawai">
                         <option></option>
                         @foreach ($pegawai as $pegawai)
                         <option value="{{ $pegawai->id }}">
