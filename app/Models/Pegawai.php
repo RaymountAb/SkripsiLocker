@@ -1,15 +1,22 @@
 <?php
 
-namespace App\Models;
+//namespace App\Models;
+//use Illuminate\Foundation\Auth\User as Authenticatable;
+//use Illuminate\Notifications\Notifiable;
+//use Laravel\Sanctum\HasApiTokens;
+
+namespace App;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Passport\HasApiTokens;
 
-class Pegawai extends Model
+class Pegawai extends Authenticatable
 {
-    use HasFactory;   
-    
+    use HasFactory,Notifiable,HasApiTokens;
+
     protected $table = 'm_pegawai';
     protected $primarykey = 'id';
     public $timestamps = true;
@@ -17,8 +24,16 @@ class Pegawai extends Model
     protected $fillable = [
         'nip',
         'nama',
-        'password'
+        'password',
+        'api_token',
     ];
+
+    protected $hidden = ['password', 'remember_token',];
+
+    protected $casts = [
+        'nip' => 'integer',
+    ];
+
     public function pegawaidetail()
     {
         return $this->hasOne(Pegawai::class);
