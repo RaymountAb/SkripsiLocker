@@ -53,6 +53,7 @@
                         @endforeach
                     </select>
                 </div>
+                <input type="hidden" id="lockerId" name="lockerId" value="">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal" id="myclose">Close</button>

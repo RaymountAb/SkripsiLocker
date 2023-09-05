@@ -43,7 +43,11 @@
                     },
                     {
                         data: 'waktu',
-                        name: 'waktu'}
+                        name: 'waktu',
+                        render: function (data, type, row) {
+                            return data + ' menit';
+                        }
+                    }
                 ]
             });
 

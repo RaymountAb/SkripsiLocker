@@ -46,6 +46,7 @@
         // Tambah QR Code
         $('body').on('click', '.addAksesLocker', function() {
             var lockerId = $(this).data('id');
+            $('#lockerId').val(lockerId);
             $('#addpegawai').empty().trigger('change');
             $('#addQrCodeModal').modal('show');
         });
@@ -53,7 +54,7 @@
         //submit qrcode
         $('#submitQrCode').click(function(e) {
             e.preventDefault();
-            var lockerId = $('.addAksesLocker').data('id');
+            var lockerId = $('#lockerId').val();
             var pegawaiId = $('#qrcode').val();
             $.ajax({
                 url: "{{ route('lockers.addAkses') }}",

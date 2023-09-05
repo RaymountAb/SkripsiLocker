@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\History;
 use App\Models\Locker;
 use App\Models\MQrcode;
 use App\Models\Pegawai;
+use App\Models\RekapPenggunaan;
 use Yajra\DataTables\Facades\DataTables;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Http\Request;
@@ -46,54 +48,6 @@ class LockerController extends Controller
         return view('content.lockers', $data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Locker $locker)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Locker $locker)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Locker $locker)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Locker $locker)
-    {
-        //
-    }
-
     public function getStatus($status)
     {
     if ($status == 1) {
@@ -106,15 +60,49 @@ class LockerController extends Controller
     {
         try {
             $locker = Locker::findOrFail($id);
+            $pegawai = MQrcode::where('qrcode', $locker->qrcode)->first();
+
+            History::create([
+                'date' => date('Y-m-d'),
+                'time' => date('H:i:s'),
+                'loker' => $locker->id,
+                'pegawai' => $pegawai->pegawai,
+                'activity' => '3'
+            ]);
+
             $locker->update([
                 'qrcode' => null,
             ]);
 
-            return response()->json(['message' => 'Kolom diubah menjadi null dengan sukses'], 200);
+            $activity1 = History::where('pegawai', $pegawai->pegawai)
+                ->where('loker',$locker->id)
+                ->where('activity', '1')
+                ->orderBy('id', 'desc')
+                ->first();
+
+            $activity2 = History::where('pegawai', $pegawai->pegawai)
+                ->where('loker',$locker->id)
+                ->where('activity', '3')
+                ->orderBy('id', 'desc')
+                ->first();
+
+                $time1 = \Carbon\Carbon::createFromFormat('H:i:s', $activity1->time);
+                $time3 = \Carbon\Carbon::createFromFormat('H:i:s', $activity2->time);
+                $waktupenggunaan = $time1->diffInMinutes($time3);
+
+            RekapPenggunaan::create([
+                'pegawai' => $pegawai->pegawai,
+                'loker' => $locker->id,
+                'waktu' => $waktupenggunaan,
+                'date' => date('Y-m-d'),
+            ]);
+
+            return response()->json(['message' => 'Akses berhasil dihapus'], 200);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Terjadi kesalahan saat mengubah kolom', 'error' => $e->getMessage()], 500);
+            return response()->json(['message' => 'Terjadi kesalahan menghapus akses', 'error' => $e->getMessage()], 500);
         }
     }
+
 
     public function addAkses(Request $request)
     {
@@ -123,20 +111,29 @@ class LockerController extends Controller
             $pegawaiId = $request->pegawaiId;
 
             $locker = Locker::findOrFail($lockerId);
-            $qrcode = MQrcode::where('pegawai', $pegawaiId)->first(); // Tambahkan tanda kurung pada 'first'
+            $qrcode = MQrcode::where('pegawai', $pegawaiId)->first();
 
             if (!$qrcode) {
                 return response()->json(['message' => 'QR Code tidak ditemukan'], 404);
             }
 
+            History::create([
+                'date' => date('Y-m-d'),
+                'time' => date('H:i:s'),
+                'loker' => $locker->id,
+                'pegawai' => $pegawaiId,
+                'activity' => '1'
+            ]);
+
             $locker->update([
                 'qrcode' => $qrcode->qrcode,
             ]);
 
-            return response()->json(['message' => 'Kolom diubah menjadi null dengan sukses'], 200);
+            return response()->json(['message' => 'Akses berhasil ditambahkan'], 200);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Terjadi kesalahan saat mengubah kolom', 'error' => $e->getMessage()], 500);
+            return response()->json(['message' => 'Terjadi kesalahan menambahkan akses', 'error' => $e->getMessage()], 500);
         }
     }
+
 
 }
