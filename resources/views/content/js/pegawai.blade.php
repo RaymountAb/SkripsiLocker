@@ -36,10 +36,10 @@
                 "infoFiltered": "(di-filter dari _MAX_ total data)",
                 "search": "Cari:",
                 "paginate": {
-                    "first": "<<",
-                    "last": ">>",
-                    "next": "<",
-                    "previous": ">"
+                    "first": ">>",
+                    "last": "<<",
+                    "next": ">",
+                    "previous": "<"
                 }
             },
             ajax: "{{ route('pegawai.index') }}",

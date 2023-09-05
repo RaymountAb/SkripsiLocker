@@ -1,6 +1,6 @@
 <script>
     $('document').ready(function() {
-        var table = $('#tableHistory').DataTable({
+        var table = $('#tableRekap').DataTable({
             processing: false,
             serverSide: true,
             ordering: false,
@@ -22,20 +22,12 @@
                     "previous": "<"
                 }
             },
-            ajax: "{{ route('history.index') }}",
+            ajax: "{{ route('activity.index') }}",
             columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
                         orderable: false,
                         searchable: false
-                    },
-                    {
-                        data: 'date',
-                        name: 'date'
-                    },
-                    {
-                        data: 'time',
-                        name: 'time'
                     },
                     {
                         data: 'pegawai',
@@ -46,9 +38,12 @@
                         name: 'loker'
                     },
                     {
-                        data: 'activity',
-                        name: 'activity'
+                        data: 'date',
+                        name: 'date'
                     },
+                    {
+                        data: 'waktu',
+                        name: 'waktu'}
                 ]
             });
 

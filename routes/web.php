@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LockerController;
@@ -7,7 +8,7 @@ use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\QRCodeController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\ManualController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RekapController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,20 +20,31 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-//Web Login
-Route::get('login',[LoginController::class,'index'])->name('login')->middleware('guest');
-Route::post('login',[LoginController::class,'authenticate']);
-Route::post('logout',[LoginController::class,'logout']);
 
-//Web Content
-Route::get("/", function () {return view('login');});
-Route::resource('qrcode', QRCodeController::class)->middleware('auth');
-Route::resource('pegawai', PegawaiController::class)->middleware('auth');
-Route::resource('lockers', LockerController::class)->middleware('auth');
-Route::resource('history', HistoryController::class)->middleware('auth');
-Route::get('dashboard',[DashboardController::class, 'index'])->middleware('auth');
-Route::get('controls', [ManualController::class,'index'] )->middleware('auth');
-Route::post('controls/{id}', [ManualController::class,'update'] )->middleware('auth');
-Route::patch('lockers/{id}/delete-akses-qrcode', [LockerController::class, 'deleteAkses'])->name('lockers.deleteAkses');
-//Route::patch('/pegawai/{id}', [PegawaiController::class, 'update'])->name('pegawai.update');
-Route::Post('lockers/addAkses', [LockerController::class, 'addAkses'])->name('lockers.addAkses');
+// Web Login
+Route::middleware('guest')->group(function () {
+    Route::get('login', [LoginController::class, 'index'])->name('login');
+    Route::post('login', [LoginController::class, 'authenticate']);
+});
+
+Route::post('logout', [LoginController::class, 'logout']);
+
+// Web Content
+Route::get("/", function () {
+    return view('login');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::resource('qrcode', QRCodeController::class);
+    Route::resource('pegawai', PegawaiController::class);
+    Route::resource('lockers', LockerController::class);
+    Route::resource('history', HistoryController::class);
+    Route::resource('activity', RekapController::class);
+
+    Route::get('dashboard', [DashboardController::class, 'index']);
+    Route::get('controls', [ManualController::class, 'index']);
+    Route::post('controls/{id}', [ManualController::class, 'update']);
+    Route::patch('lockers/{id}/delete-akses-qrcode', [LockerController::class, 'deleteAkses'])->name('lockers.deleteAkses');
+    Route::post('lockers/addAkses', [LockerController::class, 'addAkses'])->name('lockers.addAkses');
+});
+
