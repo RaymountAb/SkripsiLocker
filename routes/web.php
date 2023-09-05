@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\ApiControlController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LockerController;
@@ -8,7 +7,6 @@ use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\QRCodeController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\ManualController;
-use Illuminate\Cache\Lock;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,8 +36,3 @@ Route::post('controls/{id}', [ManualController::class,'update'] )->middleware('a
 Route::patch('lockers/{id}/delete-akses-qrcode', [LockerController::class, 'deleteAkses'])->name('lockers.deleteAkses');
 //Route::patch('/pegawai/{id}', [PegawaiController::class, 'update'])->name('pegawai.update');
 Route::Post('lockers/addAkses', [LockerController::class, 'addAkses'])->name('lockers.addAkses');
-//Web API Alat
-Route::get('api/get-status/loker/{id}', [ApiControlController::class,'getStatusLoker'] );
-Route::get('api/check-qrcode/{payload}', [ApiControlController::class,'check_qrcode'] );
-Route::get('api/end-session/{id}', [ApiControlController::class,'endsession'] );
-Route::post('api/update-status/loker/{lockerNumber}',[ApiControlController::class,'updateStatusLoker']);

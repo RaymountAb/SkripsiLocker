@@ -1,6 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\ApiMobileController;
+use App\Http\Controllers\ApiControlController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PegawaiAuthController;
 /*
@@ -24,6 +25,13 @@ Route::group(['prefix' => 'v1'], function () {
 });
 
 Route::middleware('auth:api')->group(function () {
-    // Routes yang memerlukan autentikasi
+    Route::post('/pegawai/profile/{userId}',[ApiMobileController::class,'profile']);
+    Route::get('/pegawai/qrcode/{userId}',[ApiMobileController::class,'qrcode']);
+    Route::get('/pegawai/home/{userId}',[ApiMobileController::class,'home']);
 });
 
+//API Alat
+Route::get('/get-status/loker/{id}', [ApiControlController::class,'getStatusLoker'] );
+Route::get('/check-qrcode/{payload}', [ApiControlController::class,'check_qrcode'] );
+Route::get('/end-session/{id}', [ApiControlController::class,'endsession'] );
+Route::post('/update-status/loker/{lockerNumber}',[ApiControlController::class,'updateStatusLoker']);

@@ -34,15 +34,20 @@ class PegawaiAuthController extends Controller
 
         $token = $pegawai->createToken('auth_token')->plainTextToken;
 
-        return response()->json(['token' => $token], 200);
+        return response()->json([
+            'token' => $token,
+            'pegawai' => [
+                'id' => $pegawai->id,
+                'nama' => $pegawai->nama,
+            ]
+        ], 200);
     }
 
     public function logout(Request $request)
-    {
-        $request->user()->currentAccessToken()->delete();
+{
+    $request->user()->tokens()->delete(); // Menghapus semua token yang terkait dengan pengguna yang sedang login
 
-        return response()->json(['message' => 'Logout berhasil'], 200);
-    }
-
+    return response()->json(['message' => 'Logout berhasil'], 200);
+}
 
 }
