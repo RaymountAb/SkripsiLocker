@@ -4,7 +4,7 @@
 <nav aria-label="breadcrumb">
   <h2 class="font-weight-bolder mb-0">Dashboard</h2>
 </nav>
-<div class="container-fluid py-4">
+<div class="container-fluid py-4 ">
     <div class="row">
       <div class="col-xl-4 col-sm-8 mb-xl-0 mb-4">
         <div class="card">
@@ -49,20 +49,26 @@
         </div>
       </div>
     </div>
-    <div class="row mt-4">
+    <div class="row mt-4 ">
       <div class="col-lg-7 mb-lg-0 mb-4">
         <div class="card mb-3">
-            <div class="card-body p-3">
+            <div class="card-header text-center">
+                <h5 class="card-title">Penggunaan Terakhir</h5>
+              </div>
+            <div class="card-body p-2">
               <div class="chart">
-                <canvas id="bar-chart" class="chart-canvas" height="170px"></canvas>
+                <canvas id="bar-chart" class="chart-canvas" height="150px"></canvas>
               </div>
             </div>
           </div>
       </div>
     </div>
-    <div class="row mt-4">
+    <div class="row mt-4 ">
         <div class="col-lg-7 mb-lg-0 mb-4">
             <div class="card">
+                <div class="card-header text-center">
+                    <h5 class="card-title">Riwayat Terakhir</h5>
+                  </div>
                 <div class="table-responsive">
                   <table class="table align-items-center mb-0">
                     <thead>
@@ -76,130 +82,36 @@
                       </tr>
                     </thead>
                     <tbody>
-                        @foreach ($locker1 as $item1)
-                        <tr>
-                          <td class="align-middle">
-                            <div class="d-flex px-2">
-                              <div>
-                                <i class="ni ni-archive-2"></i>
+                        @foreach ($locker1->concat($locker2)->concat($locker3)->concat($locker4) as $item)
+                          <tr>
+                            <td class="align-middle">
+                              <div class="d-flex px-2">
+                                <div>
+                                  <i class="ni ni-archive-2"></i>
+                                </div>
+                                <div class="my-auto">
+                                  <h6 class="mb-0 text-xs">{{ $item->loker }}</h6>
+                                </div>
                               </div>
-                              <div class="my-auto">
-                                <h6 class="mb-0 text-xs">{{ $item1->loker }}</h6>
-                              </div>
-                            </div>
-                          </td>
-                          <td class="align-middle">
-                            <p class="text-xs font-weight-bold mb-0">{{ $item1->pegawai }}</p>
-                          </td>
-                          <td class="align-middle">
-                            <p class="text-xs font-weight-bold mb-0">{{ $item1->date }}</p>
-                          </td>
-                          <td class="align-middle">
-                            <p class="text-xs font-weight-bold mb-0">{{ $item1->time }}</p>
-                          </td>
-                          <td class="align-middle">
-                            <p class="text-xs font-weight-bold mb-0">{{ $item1->activity }}</p>
-                          </td>
-                        </tr>
+                            </td>
+                            <td class="align-middle">
+                              <p class="text-xs font-weight-bold mb-0">{{ $item->pegawai }}</p>
+                            </td>
+                            <td class="align-middle">
+                              <p class="text-xs font-weight-bold mb-0">{{ $item->date }}</p>
+                            </td>
+                            <td class="align-middle">
+                              <p class="text-xs font-weight-bold mb-0">{{ $item->time }}</p>
+                            </td>
+                            <td class="align-middle">
+                              <p class="text-xs font-weight-bold mb-0">{{ $item->activity }}</p>
+                            </td>
+                          </tr>
                         @endforeach
-                        @foreach ($locker2 as $item2)
-                        <tr>
-                          <td class="align-middle">
-                            <div class="d-flex px-2">
-                              <div>
-                                <i class="ni ni-archive-2"></i>
-                              </div>
-                              <div class="my-auto">
-                                <h6 class="mb-0 text-xs">{{ $item2->loker }}</h6>
-                              </div>
-                            </div>
-                          </td>
-                          <td class="align-middle">
-                            <p class="text-xs font-weight-bold mb-0">{{ $item2->pegawai }}</p>
-                          </td>
-                          <td class="align-middle">
-                            <p class="text-xs font-weight-bold mb-0">{{ $item2->date }}</p>
-                          </td>
-                          <td class="align-middle">
-                            <p class="text-xs font-weight-bold mb-0">{{ $item2->time }}</p>
-                          </td>
-                          <td class="align-middle">
-                            <p class="text-xs font-weight-bold mb-0">{{ $item2->activity }}</p>
-                          </td>
-                        </tr>
-                        @endforeach
-                        @foreach ($locker3 as $item3)
-                        <tr>
-                          <td class="align-middle">
-                            <div class="d-flex px-2">
-                              <div>
-                                <i class="ni ni-archive-2"></i>
-                              </div>
-                              <div class="my-auto">
-                                <h6 class="mb-0 text-xs">{{ $item3->loker }}</h6>
-                              </div>
-                            </div>
-                          </td>
-                          <td class="align-middle">
-                            <p class="text-xs font-weight-bold mb-0">{{ $item3->pegawai }}</p>
-                          </td>
-                          <td class="align-middle">
-                            <p class="text-xs font-weight-bold mb-0">{{ $item3->date }}</p>
-                          </td>
-                          <td class="align-middle">
-                            <p class="text-xs font-weight-bold mb-0">{{ $item3->time }}</p>
-                          </td>
-                          <td class="align-middle">
-                            <p class="text-xs font-weight-bold mb-0">{{ $item3->activity }}</p>
-                          </td>
-                        </tr>
-                        @endforeach
-                        @foreach ($locker4 as $item4)
-                        <tr>
-                          <td class="align-middle">
-                            <div class="d-flex px-2">
-                              <div>
-                                <i class="ni ni-archive-2"></i>
-                              </div>
-                              <div class="my-auto">
-                                <h6 class="mb-0 text-xs">{{ $item4->loker }}</h6>
-                              </div>
-                            </div>
-                          </td>
-                          <td class="align-middle">
-                            <p class="text-xs font-weight-bold mb-0">{{ $item4->pegawai }}</p>
-                          </td>
-                          <td class="align-middle">
-                            <p class="text-xs font-weight-bold mb-0">{{ $item4->date }}</p>
-                          </td>
-                          <td class="align-middle">
-                            <p class="text-xs font-weight-bold mb-0">{{ $item4->time }}</p>
-                          </td>
-                          <td class="align-middle">
-                            <p class="text-xs font-weight-bold mb-0">{{ $item4->activity }}</p>
-                          </td>
-                        </tr>
-                        @endforeach
-
-                    </tbody>
+                      </tbody>
                   </table>
                 </div>
                 </div>
-        </div>
-        <div class="col-lg-5">
-          <div class="card h-100 p-3">
-            <div class="overflow-hidden position-relative border-radius-lg bg-cover h-100" style="background-image: url('../assets/img/ivancik.jpg');">
-              <span class="mask bg-gradient-dark"></span>
-              <div class="card-body position-relative z-index-1 d-flex flex-column h-100 p-3">
-                <h5 class="text-white font-weight-bolder mb-4 pt-2">Work with the rockets</h5>
-                <p class="text-white">Wealth creation is an evolutionarily recent positive-sum game. It is all about who take the opportunity first.</p>
-                <a class="text-white text-sm font-weight-bold mb-0 icon-move-right mt-auto" href="javascript:;">
-                  Read More
-                  <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
-                </a>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
   </div>
