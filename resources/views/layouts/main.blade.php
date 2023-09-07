@@ -30,11 +30,11 @@
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
-    
+
     @include('layouts.sidebar')
 
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-    
+
     @include('layouts.navbar')
 
     @yield('container')
@@ -101,6 +101,7 @@
   <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
   <script src="../assets/js/plugins/chartjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {

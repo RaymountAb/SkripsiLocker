@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\History;
 use App\Models\Locker;
 use App\Models\MQrcode;
+use App\Models\RekapPenggunaan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Uuid;
@@ -85,6 +86,13 @@ class ApiControlController extends Controller
                 if ($locker) {
                     $locker->update(['qrcode' => $qrcode]);
 
+                    History::create([
+                        'date' => date('Y-m-d'),
+                        'time' => date('H:i:s'),
+                        'loker' => $locker->id,
+                        'pegawai' => $qrcodeData->pegawai,
+                        'activity' => '1'
+                    ]);
                     return response()->json([
                         'status' => 'success',
                         'message' => 'QR Code berhasil ditambahkan pada loker yang tidak memiliki QR Code'
@@ -123,6 +131,29 @@ class ApiControlController extends Controller
                     'pegawai' => $pegawais->pegawai,
                     'activity' => '3'
                 ]);
+
+                $activity1 = History::where('pegawai', $pegawais->pegawai)
+                ->where('loker',$locker->id)
+                ->where('activity', '1')
+                ->orderBy('id', 'desc')
+                ->first();
+
+            $activity2 = History::where('pegawai', $pegawais->pegawai)
+                ->where('loker',$locker->id)
+                ->where('activity', '3')
+                ->orderBy('id', 'desc')
+                ->first();
+
+                $time1 = \Carbon\Carbon::createFromFormat('H:i:s', $activity1->time);
+                $time3 = \Carbon\Carbon::createFromFormat('H:i:s', $activity2->time);
+                $waktupenggunaan = $time1->diffInMinutes($time3);
+
+            RekapPenggunaan::create([
+                'pegawai' => $pegawais->pegawai,
+                'loker' => $locker->id,
+                'waktu' => $waktupenggunaan,
+                'date' => date('Y-m-d'),
+            ]);
 
                 return response()->json([
                     'status' => 'success',

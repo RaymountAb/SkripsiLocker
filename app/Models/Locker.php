@@ -14,15 +14,15 @@ class Locker extends Model
     protected $primaryKey = 'id';
     public $timestamps = true;
     public $incrementing = true;
-    
+
     protected $guarded = ['id'];
-    
+
     protected $fillable = [
         'name_loker',
         'status',
         'qrcode'
     ];
-    
+
     public function qrcodes()
     {
         return $this->belongsTo(MQrcode::class);
