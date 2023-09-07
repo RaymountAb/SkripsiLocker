@@ -129,7 +129,7 @@
       datasets: [{
         label: 'Penggunaan Terakhir(menit)',
         data: data,
-        backgroundColor: 'rgba(75, 192, 192, 0.2)', // Warna latar belakang
+        backgroundColor: 'rgba(75, 192, 192, 1)', // Warna latar belakang
         borderColor: 'rgba(75, 192, 192, 1)', // Warna border
         borderWidth: 1
       }]
