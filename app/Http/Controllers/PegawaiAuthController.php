@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 
 
 class PegawaiAuthController extends Controller
@@ -44,10 +42,10 @@ class PegawaiAuthController extends Controller
     }
 
     public function logout(Request $request)
-{
-    $request->user()->tokens()->delete(); // Menghapus semua token yang terkait dengan pengguna yang sedang login
+    {
+        $request->user()->tokens()->delete(); // Menghapus semua token yang terkait dengan pengguna yang sedang login
 
-    return response()->json(['message' => 'Logout berhasil'], 200);
-}
+        return response()->json(['message' => 'Logout berhasil'], 200);
+    }
 
 }

@@ -115,56 +115,68 @@ class ApiControlController extends Controller
 
     public function endsession($id)
     {
-        $pegawais = MQrcode::find($id);
-        if($pegawais){
-            //cari loker yang sedang digunakan oleh pegawai
-            $locker = Locker::where('qrcode', $pegawais->qrcode)->first();
+        // Temukan pegawai dengan ID yang diberikan
+        $pegawai = MQrcode::where('pegawai', $id)->first();
 
-            if($locker){
-                //Mengosongkan qrcode pada loker
-                $locker->update(['qrcode' => null]);
 
-                History::create([
-                    'date' => date('Y-m-d'),
-                    'time' => date('H:i:s'),
-                    'loker' => $locker->id,
-                    'pegawai' => $pegawais->pegawai,
-                    'activity' => '3'
-                ]);
+        // Cari loker yang sedang digunakan oleh pegawai
+        $locker = Locker::where('qrcode', $pegawai->qrcode)->first();
 
-                $activity1 = History::where('pegawai', $pegawais->pegawai)
-                ->where('loker',$locker->id)
+        if ($locker) {
+            // Mengosongkan qrcode pada loker
+            $locker->update(['qrcode' => null]);
+
+            // Buat history
+            History::create([
+                'date' => now(),
+                'time' => now()->format('H:i:s'),
+                'loker' => $locker->id,
+                'pegawai' => $pegawai->pegawai,
+                'activity' => '3'
+            ]);
+
+            // Temukan history activity 1
+            $activity1 = History::where('pegawai', $pegawai->pegawai)
+                ->where('loker', $locker->id)
                 ->where('activity', '1')
                 ->orderBy('id', 'desc')
                 ->first();
 
-            $activity2 = History::where('pegawai', $pegawais->pegawai)
-                ->where('loker',$locker->id)
+            // Temukan history activity 3
+            $activity2 = History::where('pegawai', $pegawai->pegawai)
+                ->where('loker', $locker->id)
                 ->where('activity', '3')
                 ->orderBy('id', 'desc')
                 ->first();
 
+            if ($activity1 && $activity2) {
                 $time1 = \Carbon\Carbon::createFromFormat('H:i:s', $activity1->time);
-                $time3 = \Carbon\Carbon::createFromFormat('H:i:s', $activity2->time);
-                $waktupenggunaan = $time1->diffInMinutes($time3);
+                $time2 = \Carbon\Carbon::createFromFormat('H:i:s', $activity2->time);
+                $waktupenggunaan = $time1->diffInMinutes($time2);
 
-            RekapPenggunaan::create([
-                'pegawai' => $pegawais->pegawai,
-                'loker' => $locker->id,
-                'waktu' => $waktupenggunaan,
-                'date' => date('Y-m-d'),
-            ]);
+                // Buat rekap penggunaan
+                RekapPenggunaan::create([
+                    'pegawai' => $pegawai->pegawai,
+                    'loker' => $locker->id,
+                    'waktu' => $waktupenggunaan,
+                    'date' => now(),
+                ]);
 
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Sesi berhasil diakhiri'
                 ]);
-            }else{
+            } else {
                 return response()->json([
                     'status' => 'failed',
                     'message' => 'Sesi gagal diakhiri'
-                ],404);
+                ], 404);
             }
+        } else {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Loker tidak ditemukan'
+            ], 404);
         }
     }
 }

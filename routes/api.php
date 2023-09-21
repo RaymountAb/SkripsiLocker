@@ -21,13 +21,13 @@ use App\Http\Controllers\PegawaiAuthController;
 
 Route::group(['prefix' => 'v1'], function () {
     Route::post('/login', [PegawaiAuthController::class, 'login']);
-    Route::post('/logout', [PegawaiAuthController::class, 'logout']);
 });
 
 Route::middleware('auth:api')->group(function () {
-    Route::post('/pegawai/profile/{userId}',[ApiMobileController::class,'profile']);
+    Route::get('/pegawai/profile/{userId}',[ApiMobileController::class,'profile']);
     Route::get('/pegawai/qrcode/{userId}',[ApiMobileController::class,'qrcode']);
     Route::get('/pegawai/home/{userId}',[ApiMobileController::class,'home']);
+    Route::post('/logout', [PegawaiAuthController::class, 'logout']);
 });
 
 //API Alat
@@ -35,3 +35,4 @@ Route::get('/get-status/loker/{id}', [ApiControlController::class,'getStatusLoke
 Route::get('/check-qrcode/{payload}', [ApiControlController::class,'check_qrcode'] );
 Route::get('/end-session/{id}', [ApiControlController::class,'endsession'] );
 Route::post('/update-status/loker/{lockerNumber}',[ApiControlController::class,'updateStatusLoker']);
+Route::get('/addAkses/{userId}',[ApiMobileController::class,'addAkses']);
