@@ -8,14 +8,14 @@
         <div class="row">
             <div class="col-xl-4 col-sm-8 mb-xl-0 mb-4">
                 <div class="card">
-                    <div class="card-body p-3">
+                    <div class="card-body p-3 mb-3">
                         <div class="row">
                             <div class="col-8">
                                 <div class="numbers">
                                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Jumlah Pegawai</p>
-                                    <h5 class="font-weight-bolder text-center mt-2 mb-0">
+                                    <h4 class="font-weight-bolder text-center mt-2 mb-0">
                                         {{ $jmlhpegawai }} Orang
-                                    </h5>
+                                    </h4>
                                 </div>
                             </div>
                             <div class="col-4 text-center">
@@ -29,14 +29,14 @@
             </div>
             <div class="col-xl-4 col-sm-8 mb-xl-0 mb-4">
                 <div class="card">
-                    <div class="card-body p-3">
+                    <div class="card-body p-3 mb-3">
                         <div class="row">
                             <div class="col-8">
                                 <div class="numbers">
                                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Jumlah Loker Kosong</p>
-                                    <h5 class="font-weight-bolder text-center mt-2 mb-0">
+                                    <h4 class="font-weight-bolder text-center mt-2 mb-0">
                                         {{ $jmlhkosong }} / {{ $jmlhlocker }} Loker
-                                    </h5>
+                                    </h4>
                                 </div>
                             </div>
                             <div class="col-4 text-center">
@@ -51,7 +51,7 @@
         </div>
         <div class="row mt-4 ">
             <div class="col-lg-7 mb-lg-0 mb-4">
-                <div class="card mb-3">
+                <div class="card">
                     <div class="card-header text-center">
                         <h5 class="card-title">Penggunaan Terakhir</h5>
                     </div>
