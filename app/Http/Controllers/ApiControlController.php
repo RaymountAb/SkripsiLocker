@@ -6,6 +6,7 @@ use App\Models\History;
 use App\Models\Locker;
 use App\Models\MQrcode;
 use App\Models\RekapPenggunaan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Uuid;
@@ -40,69 +41,54 @@ class ApiControlController extends Controller
 
     public function check_qrcode(Request $request, $payload)
     {
+        // Menggunakan $payload sebagai nilai default jika 'payload' tidak ada di input
         $qrcode = $request->input('payload', $payload);
-        // Cek apakah qrcode sudah terdaftar di database
         $qrcodeData = MQrcode::where('qrcode', $qrcode)->first();
 
         if ($qrcodeData) {
-             // Ada Pegawai dengan qrcode tersebut
-             $locker = Locker::where('qrcode', $qrcode)->first();
-             if ($locker) {
-                // Ada loker dengan qrcode tersebut
-                DB::beginTransaction();
-                try {
+            // Ada Pegawai dengan qrcode tersebut
+            $locker = Locker::where('qrcode', $qrcode)->first();
+            DB::beginTransaction();
+            try {
+                $newqrcode = Uuid::uuid4()->toString();
 
-                    $newqrcode = Uuid::uuid4()->toString();
-                    //$qrcodeData->update(['qrcode' => $newqrcode]);
-                    $locker->update([
-                        'status' => '1',
-                        'qrcode' => $newqrcode
-                    ]);
+                // Menggunakan metode updateOrFail untuk menangani kesalahan yang mungkin terjadi
+                $qrcodeData->update(['qrcode' => $newqrcode]);
 
-                    History::create([
-                        'date' => date('Y-m-d'),
-                        'time' => date('H:i:s'),
-                        'loker' => $locker->id,
-                        'pegawai' => $qrcodeData->pegawai,
-                        'activity' => '2'
-                    ]);
+                // Menggunakan metode updateOrFail untuk menangani kesalahan yang mungkin terjadi
+                $locker->updateOrFail([
+                    'status' => '1',
+                    'qrcode' => $newqrcode
+                ]);
 
+                /*History::create([
+                    'date' => date('Y-m-d'),
+                    'time' => date('H:i:s'),
+                    'loker' => $locker->id,
+                    'pegawai' => $qrcodeData->pegawai,
+                    'activity' => '2'
+                ]);*/
+                $historyEntry = [
+                    'date' => Carbon::now()->toDateString(),
+                    'time' => Carbon::now()->toTimeString(),
+                    'loker' => $locker->id,
+                    'pegawai' => $qrcodeData->pegawai,
+                    'activity' => '2',
+                ];
 
-                    DB::commit();
-                    return response()->json([
-                        'status' => 'success',
-                        'message' => 'Loker berhasil dibuka'
-                    ]);
-                } catch (\Exception $e) {
-                    DB::rollback();
-                    return response()->json([
-                        'status' => 'failed',
-                        'message' => 'Terjadi kesalahan saat membuka Loker'
-                    ]);
-                }
-            } else {
-                // Tidak ada loker dengan qrcode tersebut
-                $locker = Locker::whereNull('qrcode')->inRandomOrder()->first();
-                if ($locker) {
-                    $locker->update(['qrcode' => $qrcode]);
+                History::create($historyEntry);
 
-                    History::create([
-                        'date' => date('Y-m-d'),
-                        'time' => date('H:i:s'),
-                        'loker' => $locker->id,
-                        'pegawai' => $qrcodeData->pegawai,
-                        'activity' => '1'
-                    ]);
-                    return response()->json([
-                        'status' => 'success',
-                        'message' => 'QR Code berhasil ditambahkan pada loker yang tidak memiliki QR Code'
-                    ]);
-                } else {
-                    return response()->json([
-                        'status' => 'failed',
-                        'message' => 'QR Code tidak ada loker yang tidak memiliki QR Code'
-                    ]);
-                }
+                DB::commit();
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Loker berhasil dibuka'
+                ]);
+            } catch (\Exception $e) {
+                DB::rollback();
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => 'Terjadi kesalahan saat membuka Loker'
+                ]);
             }
         } else {
             // Loker dengan QR Code tidak ditemukan
