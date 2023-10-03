@@ -45,32 +45,29 @@ class ApiControlController extends Controller
         $qrcode = $request->input('payload', $payload);
         $qrcodeData = MQrcode::where('qrcode', $qrcode)->first();
 
-        if ($qrcodeData) {
-            // Ada Pegawai dengan qrcode tersebut
+        if (!$qrcodeData) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'QR Code tidak ditemukan'
+            ]);
+        }
+
+        DB::beginTransaction();
+
+        try {
             $locker = Locker::where('qrcode', $qrcode)->first();
-            DB::beginTransaction();
-            try {
-                $newqrcode = Uuid::uuid4()->toString();
 
-                // Menggunakan metode updateOrFail untuk menangani kesalahan yang mungkin terjadi
-                $qrcodeData->update(['qrcode' => $newqrcode]);
-
-                // Menggunakan metode updateOrFail untuk menangani kesalahan yang mungkin terjadi
+            if ($locker) {
+                $newQrcode = Uuid::uuid4()->toString();
+                $qrcodeData->update(['qrcode' => $newQrcode]);
                 $locker->updateOrFail([
                     'status' => '1',
-                    'qrcode' => $newqrcode
+                    'qrcode' => $newQrcode
                 ]);
 
-                /*History::create([
-                    'date' => date('Y-m-d'),
-                    'time' => date('H:i:s'),
-                    'loker' => $locker->id,
-                    'pegawai' => $qrcodeData->pegawai,
-                    'activity' => '2'
-                ]);*/
                 $historyEntry = [
-                    'date' => Carbon::now()->toDateString(),
-                    'time' => Carbon::now()->toTimeString(),
+                    'date' => now()->toDateString(),
+                    'time' => now()->toTimeString(),
                     'loker' => $locker->id,
                     'pegawai' => $qrcodeData->pegawai,
                     'activity' => '2',
@@ -79,25 +76,41 @@ class ApiControlController extends Controller
                 History::create($historyEntry);
 
                 DB::commit();
+
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Loker berhasil dibuka'
                 ]);
-            } catch (\Exception $e) {
-                DB::rollback();
+            } else {
+                $locker = Locker::whereNull('qrcode')->inRandomOrder()->first();
+                $locker->update(['qrcode' => $qrcodeData->qrcode]);
+
+                $historyEntry = [
+                    'date' => now()->toDateString(),
+                    'time' => now()->toTimeString(),
+                    'loker' => $locker->id,
+                    'pegawai' => $qrcodeData->pegawai,
+                    'activity' => '1',
+                ];
+
+                History::create($historyEntry);
+
+                DB::commit();
+
                 return response()->json([
-                    'status' => 'failed',
-                    'message' => 'Terjadi kesalahan saat membuka Loker'
+                    'status' => 'success',
+                    'message' => 'QR Code berhasil ditambahkan ke ' . $locker->name_loker
                 ]);
             }
-        } else {
-            // Loker dengan QR Code tidak ditemukan
+        } catch (\Exception $e) {
+            DB::rollback();
             return response()->json([
                 'status' => 'failed',
-                'message' => 'QR Code tidak ditemukan'
+                'message' => 'Terjadi kesalahan saat membuka Loker'
             ]);
         }
     }
+
 
     public function endsession($id)
     {
@@ -136,8 +149,8 @@ class ApiControlController extends Controller
                 ->first();
 
             if ($activity1 && $activity2) {
-                $time1 = \Carbon\Carbon::createFromFormat('H:i:s', $activity1->time);
-                $time2 = \Carbon\Carbon::createFromFormat('H:i:s', $activity2->time);
+                $time1 = Carbon::createFromFormat('H:i:s', $activity1->time);
+                $time2 = Carbon::createFromFormat('H:i:s', $activity2->time);
                 $waktupenggunaan = $time1->diffInMinutes($time2);
 
                 // Buat rekap penggunaan

@@ -61,21 +61,13 @@ class ApiMobileController extends Controller
 
     public function addAkses($userId)
     {
-        $qrcodedata = MQrcode::where('pegawai', $userId)->first();
         $locker = Locker::whereNull('qrcode')->inRandomOrder()->first();
         if ($locker) {
-            $locker->update(['qrcode' => $qrcodedata->qrcode]);
-
-            History::create([
-                'date' => date('Y-m-d'),
-                'time' => date('H:i:s'),
-                'loker' => $locker->id,
-                'pegawai' => $qrcodedata->pegawai,
-                'activity' => '1'
-            ]);
+            $qrcodedata = MQrcode::where('pegawai', $userId)->first();
             return response()->json([
+                'qrcode' => $qrcodedata->qrcode,
                 'status' => 'success',
-                'message' => 'QR Code berhasil ditambahkan ke ' . $locker->name_loker
+                'message' => 'Berhasil mendapatkan loker kosong',
             ]);
         } else {
             return response()->json([

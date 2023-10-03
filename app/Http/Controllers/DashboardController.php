@@ -7,6 +7,7 @@ use App\Models\Locker;
 use App\Models\Pegawai;
 use App\Models\RekapPenggunaan;
 use App\Models\Result;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -17,7 +18,8 @@ class DashboardController extends Controller
         $jmlhpegawai = Pegawai::count();
         $jmlhlocker = Locker::count();
         $jmlhkosong = Locker::whereNull('qrcode')->count();
-        $qrcodeResult = $request->input('qrcode_result');
+        $today = Carbon::today()->toDateString();
+        $penggunaanharian = RekapPenggunaan::where('date', $today)->count();
 
         //$lockerUsages = RekapPenggunaan::orderBy('created_at', 'desc')->take(4)->get();
         $lockerUsages = DB::table('rekap_penggunaan')
@@ -66,6 +68,6 @@ class DashboardController extends Controller
             ->orderBy('loghistory.created_at', 'desc')
             ->take(1)
             ->get();
-        return view('content.dashboard',['jmlhpegawai'=>$jmlhpegawai,'jmlhlocker'=>$jmlhlocker,'jmlhkosong'=>$jmlhkosong,'qrcodeResult'=>$qrcodeResult, 'data' => $data, 'labels' => $labels, 'locker1' => $locker1, 'locker2' => $locker2, 'locker3' => $locker3, 'locker4' => $locker4]);
+        return view('content.dashboard',['jmlhpegawai'=>$jmlhpegawai,'jmlhlocker'=>$jmlhlocker,'jmlhkosong'=>$jmlhkosong,'penggunaanharian'=>$penggunaanharian, 'data' => $data, 'labels' => $labels, 'locker1' => $locker1, 'locker2' => $locker2, 'locker3' => $locker3, 'locker4' => $locker4]);
     }
 }

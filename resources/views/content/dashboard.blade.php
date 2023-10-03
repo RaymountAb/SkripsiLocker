@@ -48,6 +48,27 @@
                     </div>
                 </div>
             </div>
+            <div class="col-xl-4 col-sm-8 mb-xl-0 mb-4">
+                <div class="card">
+                    <div class="card-body p-3 mb-3">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="numbers">
+                                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Penggunaan Harian</p>
+                                    <h5 class="font-weight-bolder text-center mt-2 mb-0">
+                                        {{$penggunaanharian}} Penggunaan
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="col-4 text-center">
+                                <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                    <i class="ni ni-collection text-lg opacity-10" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row mt-4 ">
             <div class="col-lg-7 mb-lg-0 mb-4">
