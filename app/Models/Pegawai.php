@@ -19,7 +19,7 @@ class Pegawai extends Authenticatable
         'nip',
         'nama',
         'password',
-        'api_token',
+        //'api_token',
     ];
 
     protected $hidden = ['password', 'remember_token',];

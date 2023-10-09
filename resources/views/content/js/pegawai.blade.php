@@ -121,8 +121,8 @@
         // initialize btn save
         $('#saveBtn').click(function(e) {
             e.preventDefault();
-            var formData = new FormData($('#formeditPegawai')[0]);
-            var pegawai_id = $('#editpegawai_id').val();
+            var formData = new FormData($('#formPegawai')[0]);
+            var pegawai_id = $('#pegawai_id').val();
             $.ajax({
                 data: formData,
                 url: "{{ route('pegawai.store') }}",

@@ -8,6 +8,7 @@ use App\Models\MQrcode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Ramsey\Uuid\Uuid;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -58,58 +59,69 @@ class PegawaiController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'username'=>'required|string|unique:m_pegawai,username',
-                'nip' => 'required|integer',
-                'password'=>'required',
-                'nama'=>'required|string|unique:m_pegawai,nama'.$request->id,
-            ],[
-                'username.required'=>'Username tidak boleh kosong',
-                'username.string'=>'Username harus berupa string',
-                'username.unique'=>'Username sudah ada',
-                'nip.required'=>'NIP tidak boleh kosong',
-                'nip.integer'=>'NIP harus berupa angka',
-                'password.required'=>'Password tidak boleh kosong',
-                'nama.required'=>'Nama tidak boleh kosong',
-                'nama.string'=>'Nama harus berupa string',
-                'name.unique'=>'Nama sudah ada'
-            ]
-        );
-        if ($validator->fails()) {
-            return response()->json(['message' => $validator->errors()->first()]);
-        } else {
-            try {
-                $uuid = Uuid::uuid4()->toString();
+{
+    $validator = Validator::make(
+        $request->all(),
+        [
+            'username' => 'required|string|unique:m_pegawai,username',
+            'nip' => 'required|integer',
+            'password' => 'required',
+            'nama' => [
+                'required',
+                'string',
+                Rule::unique('m_pegawai', 'nama')->ignore($request->id),
+            ],
+            'jenis_kelamin' => 'required', // Pastikan kolom ini sesuai dengan model PegawaiDetail
+            'no_hp' => 'required', // Pastikan kolom ini sesuai dengan model PegawaiDetail
+            'alamat' => 'required', // Pastikan kolom ini sesuai dengan model PegawaiDetail
+        ],
+        [
+            'username.required' => 'Username tidak boleh kosong',
+            'username.string' => 'Username harus berupa string',
+            'username.unique' => 'Username sudah ada',
+            'nip.required' => 'NIP tidak boleh kosong',
+            'nip.integer' => 'NIP harus berupa angka',
+            'password.required' => 'Password tidak boleh kosong',
+            'nama.required' => 'Nama tidak boleh kosong',
+            'nama.string' => 'Nama harus berupa string',
+            'nama.unique' => 'Nama sudah ada',
+            'jenis_kelamin.required' => 'Jenis kelamin tidak boleh kosong',
+            'no_hp.required' => 'Nomor HP tidak boleh kosong',
+            'alamat.required' => 'Alamat tidak boleh kosong',
+        ]
+    );
 
-                $pegawai = new Pegawai();
-                $pegawai->username = $request->input('username');
-                $pegawai->nip = $request->input('nip');
-                $pegawai->nama = $request->input('nama');
-                $pegawai->password = Hash::make($request->input('password'));
-                $pegawai->save();
-
-                $qrcode = new MQrcode();
-                $qrcode->pegawai = $pegawai->id;
-                $qrcode->qrcode = $uuid;
-                $qrcode->save();
-
-                $pegawaidetail = new PegawaiDetail();
-                $pegawaidetail->pegawai = $pegawai->id;
-                $pegawaidetail->jenis_kelamin = $request->input('jenis_kelamin');
-                $pegawaidetail->no_hp = $request->input('no_hp');
-                $pegawaidetail->alamat = $request->input('alamat');
-                $pegawaidetail->save();
-
-                return response()->json(["message" => "Pegawai berhasil diperbarui"]);
-            } catch (\Exception $e) {
-                return response()->json(["message" => $e->getMessage()]);
-            }
-        }
-
+    if ($validator->fails()) {
+        return response()->json(['message' => $validator->errors()->first()], 400);
     }
+
+    try {
+        $uuid = Uuid::uuid4()->toString();
+
+        $pegawai = new Pegawai();
+        $pegawai->username = $request->input('username');
+        $pegawai->nip = $request->input('nip');
+        $pegawai->nama = $request->input('nama');
+        $pegawai->password = Hash::make($request->input('password'));
+        $pegawai->save();
+
+        $qrcode = new MQrcode();
+        $qrcode->pegawai = $pegawai->id;
+        $qrcode->qrcode = $uuid;
+        $qrcode->save();
+
+        $pegawaidetail = new PegawaiDetail();
+        $pegawaidetail->pegawai = $pegawai->id;
+        $pegawaidetail->jenis_kelamin = $request->input('jenis_kelamin');
+        $pegawaidetail->no_hp = $request->input('no_hp');
+        $pegawaidetail->alamat = $request->input('alamat');
+        $pegawaidetail->save();
+
+        return response()->json(["message" => "Pegawai berhasil diperbarui"], 200);
+    } catch (\Exception $e) {
+        return response()->json(["message" => $e->getMessage()], 500);
+    }
+}
 
     /**
      * Display the specified resource.

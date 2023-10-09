@@ -68,7 +68,7 @@
                             <div class="fv-row mb-3">
                                 <label class="d-block fw-bold fs-6 mb-2 required">Username</label>
                                 <input type="text" name="username" class="form-control" id="username"
-                                    placeholder="username Pegawai">
+                                    placeholder="Username Pegawai">
                             </div>
                             <div class="fv-row mb-3">
                                 <label class="d-block fw-bold fs-6 mb-2 required">NIP</label>
