@@ -14,7 +14,7 @@ class PegawaiAuthController extends Controller
     {
         // Validation
         $validator = Validator::make($request->all(), [
-            'nip' => 'required|integer',
+            'username' => 'required|string',
             'password' => 'required',
         ]);
 
@@ -24,10 +24,10 @@ class PegawaiAuthController extends Controller
         }
 
         // Check and auth process
-        $pegawai = Pegawai::where('nip', $request->nip)->first();
+        $pegawai = Pegawai::where('username', $request->username)->first();
 
-        if (! $pegawai || ! Hash::check($request->password, $pegawai->password)) {
-            return response()->json(['message' => 'NIP atau password salah'], 401);
+        if (!$pegawai || !Hash::check($request->password, $pegawai->password)) {
+            return response()->json(['message' => 'Username atau password salah'], 401);
         }
 
         $token = $pegawai->createToken('auth_token')->plainTextToken;
@@ -43,9 +43,8 @@ class PegawaiAuthController extends Controller
 
     public function logout(Request $request)
     {
-        $request->user()->tokens()->delete(); // Menghapus semua token yang terkait dengan pengguna yang sedang login
+        $request->user()->tokens()->delete();
 
         return response()->json(['message' => 'Logout berhasil'], 200);
     }
-
 }

@@ -36,3 +36,4 @@ Route::get('/check-qrcode/{payload}', [ApiControlController::class,'check_qrcode
 Route::get('/end-session/{id}', [ApiControlController::class,'endsession'] );
 Route::post('/update-status/loker/{lockerNumber}',[ApiControlController::class,'updateStatusLoker']);
 Route::get('/addAkses/{userId}',[ApiMobileController::class,'addAkses']);
+Route::get('/checkakses/{qrcode}',[ApiMobileController::class,'checkakses']);

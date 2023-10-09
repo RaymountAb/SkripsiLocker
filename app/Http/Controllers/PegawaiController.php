@@ -62,10 +62,14 @@ class PegawaiController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
+                'username'=>'required|string|unique:m_pegawai,username',
                 'nip' => 'required|integer',
                 'password'=>'required',
                 'nama'=>'required|string|unique:m_pegawai,nama'.$request->id,
             ],[
+                'username.required'=>'Username tidak boleh kosong',
+                'username.string'=>'Username harus berupa string',
+                'username.unique'=>'Username sudah ada',
                 'nip.required'=>'NIP tidak boleh kosong',
                 'nip.integer'=>'NIP harus berupa angka',
                 'password.required'=>'Password tidak boleh kosong',
@@ -74,32 +78,33 @@ class PegawaiController extends Controller
                 'name.unique'=>'Nama sudah ada'
             ]
         );
-        if($validator->fails()){
-            return response()->json(['message'=>$validator->errors()->first()]);
-        }else{
-            try{
+        if ($validator->fails()) {
+            return response()->json(['message' => $validator->errors()->first()]);
+        } else {
+            try {
                 $uuid = Uuid::uuid4()->toString();
 
                 $pegawai = new Pegawai();
+                $pegawai->username = $request->input('username');
                 $pegawai->nip = $request->input('nip');
-                $pegawai->nama=$request->input('nama');
-                $pegawai->password=Hash::make($request->input('password'));
+                $pegawai->nama = $request->input('nama');
+                $pegawai->password = Hash::make($request->input('password'));
                 $pegawai->save();
 
                 $qrcode = new MQrcode();
-                $qrcode->pegawai=$pegawai->id;
-                $qrcode->qrcode= $uuid;
+                $qrcode->pegawai = $pegawai->id;
+                $qrcode->qrcode = $uuid;
                 $qrcode->save();
 
                 $pegawaidetail = new PegawaiDetail();
-                $pegawaidetail->pegawai=$pegawai->id;
+                $pegawaidetail->pegawai = $pegawai->id;
                 $pegawaidetail->jenis_kelamin = $request->input('jenis_kelamin');
                 $pegawaidetail->no_hp = $request->input('no_hp');
                 $pegawaidetail->alamat = $request->input('alamat');
                 $pegawaidetail->save();
 
                 return response()->json(["message" => "Pegawai berhasil diperbarui"]);
-            }catch(\Exception $e){
+            } catch (\Exception $e) {
                 return response()->json(["message" => $e->getMessage()]);
             }
         }
@@ -158,6 +163,7 @@ class PegawaiController extends Controller
     {
         try {
             $pegawaiData = [
+                'username' => $request->input('editusername'),
                 'nip' => $request->input('editnip'),
                 'nama' => $request->input('editnama'),
             ];

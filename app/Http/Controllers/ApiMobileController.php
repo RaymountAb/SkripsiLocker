@@ -77,4 +77,20 @@ class ApiMobileController extends Controller
         }
     }
 
+    public function checkAkses($qrcode)
+    {
+        $locker = Locker::where('qrcode', $qrcode)->first();
+
+        if ($locker) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Loker ' . $locker->name_loker . ' sudah diakses'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Loker belum diakses'
+            ], 404);
+        }
+    }
 }
