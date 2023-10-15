@@ -143,18 +143,18 @@
                     <form id="formeditPegawai" name="formeditPegawai" class="form" action="#" autocomplete="off">
                         <div class="form-group">
                             <div class="fv-row mb-3">
-                                <label class="d-block fw-bold fs-6 mb-2 required">Username</label>
-                                <input type="text" name="username" class="form-control" id="editusername"
+                                <label class="d-block fw-bold fs-6 mb-2">Username</label>
+                                <input type="text" name="editusername" class="form-control" id="editusername"
                                     placeholder="Username Pegawai">
                             </div>
                             <div class="fv-row mb-3">
-                                <label class="d-block fw-bold fs-6 mb-2 required">NIP</label>
-                                <input type="text" name="nip" class="form-control" id="editnip"
+                                <label class="d-block fw-bold fs-6 mb-2">NIP</label>
+                                <input type="text" name="editnip" class="form-control" id="editnip"
                                     placeholder="NIP Pegawai">
                             </div>
                             <div class="fv-row mb-3">
-                                <label class="d-block fw-bold fs-6 mb-2 required">Nama</label>
-                                <input type="text" name="nama" class="form-control" id="editnama"
+                                <label class="d-block fw-bold fs-6 mb-2">Nama</label>
+                                <input type="text" name="editnama" class="form-control" id="editnama"
                                     placeholder="Nama Pegawai">
                             </div>
                             <input type="hidden" name="editpegawai_id" id="editpegawai_id" value="">
@@ -164,7 +164,7 @@
                                     <div class="form-check col-4 form-check-custom form-check-solid">
                                         <input class="form-check-input" type="radio" name="editjenis_kelamin"
                                             id="editjenis_kelamin_true" value="1" />
-                                        <label class="form-check-label" for="jenis_kelamin_true">
+                                        <label class="form-check-label" for="editjenis_kelamin_true">
                                             Laki-laki
                                         </label>
                                     </div>
@@ -179,16 +179,15 @@
                             </div>
                             <div class="fv-row mb-3">
                                 <label class="d-block fw-bold fs-6 mb-2">No HP</label>
-                                <input type="text" name="no_hp" class="form-control" id="editno_hp"
+                                <input type="text" name="editno_hp" class="form-control" id="editno_hp"
                                     placeholder="No hp">
                             </div>
                             <div class="fv-row mb-3">
                                 <label class="d-block fw-bold fs-6 mb-2">Alamat</label>
-                                <input type="text" name="alamat" class="form-control" id="editalamat"
+                                <input type="text" name="editalamat" class="form-control" id="editalamat"
                                     placeholder="Alamat Tempat Tinggal">
                             </div>
                         </div>
-                        <input type="hidden" name="editpegawaidetail_id" id="editpegawaidetail_id" value="">
                     </form>
                 </div>
                 <div class="modal-footer">

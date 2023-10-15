@@ -43,6 +43,8 @@ class ApiControlController extends Controller
     {
         // Menggunakan $payload sebagai nilai default jika 'payload' tidak ada di input
         $qrcode = $request->input('payload', $payload);
+
+        // Mencari data QR Code di tabel MQrcode
         $qrcodeData = MQrcode::where('qrcode', $qrcode)->first();
 
         if (!$qrcodeData) {
@@ -52,19 +54,25 @@ class ApiControlController extends Controller
             ]);
         }
 
+        // Transaksi database dimulai
         DB::beginTransaction();
 
         try {
+            // Cari locker berdasarkan QR Code
             $locker = Locker::where('qrcode', $qrcode)->first();
 
             if ($locker) {
+                // Generate QR Code baru
                 $newQrcode = Uuid::uuid4()->toString();
                 $qrcodeData->update(['qrcode' => $newQrcode]);
+
+                // Perbarui status locker
                 $locker->updateOrFail([
                     'status' => '1',
                     'qrcode' => $newQrcode
                 ]);
 
+                // Buat entri riwayat
                 $historyEntry = [
                     'date' => now()->toDateString(),
                     'time' => now()->toTimeString(),
@@ -75,6 +83,7 @@ class ApiControlController extends Controller
 
                 History::create($historyEntry);
 
+                // Commit transaksi
                 DB::commit();
 
                 return response()->json([
@@ -82,9 +91,15 @@ class ApiControlController extends Controller
                     'message' => 'Loker berhasil dibuka'
                 ]);
             } else {
+                // Cari locker yang belum digunakan secara acak
                 $locker = Locker::whereNull('qrcode')->inRandomOrder()->first();
-                $locker->update(['qrcode' => $qrcodeData->qrcode]);
 
+                // Generate QR Code baru
+                $newQrcode = Uuid::uuid4()->toString();
+                $qrcodeData->update(['qrcode' => $newQrcode]);
+                $locker->update(['qrcode' => $newQrcode]);
+
+                // Buat entri riwayat
                 $historyEntry = [
                     'date' => now()->toDateString(),
                     'time' => now()->toTimeString(),
@@ -95,6 +110,7 @@ class ApiControlController extends Controller
 
                 History::create($historyEntry);
 
+                // Commit transaksi
                 DB::commit();
 
                 return response()->json([
@@ -103,6 +119,7 @@ class ApiControlController extends Controller
                 ]);
             }
         } catch (\Exception $e) {
+            // Jika terjadi kesalahan, rollback transaksi
             DB::rollback();
             return response()->json([
                 'status' => 'failed',
@@ -110,6 +127,7 @@ class ApiControlController extends Controller
             ]);
         }
     }
+
 
 
     public function endsession($id)

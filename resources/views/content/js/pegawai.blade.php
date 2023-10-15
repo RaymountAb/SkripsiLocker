@@ -106,8 +106,8 @@
                 $('#editnip').val(data.pegawai.nip);
                 $('#editnama').val(data.pegawai.nama);
 
-                var jenis_kelamin = data.pegawaidetail.jenis_kelamin;
-                if (jenis_kelamin === '1') {
+                var editjenis_kelamin = data.pegawaidetail.jenis_kelamin;
+                if (editjenis_kelamin == '1') {
                     $('#editjenis_kelamin_true').prop('checked', true);
                 } else {
                     $('#editjenis_kelamin_false').prop('checked', true);
@@ -143,28 +143,35 @@
             });
         });
 
-        // Inisialisasi tombol edit
         $('#editBtn').click(function(e) {
             e.preventDefault();
 
-            // Variabel untuk elemen-elemen HTML
-            var frm = $('#formeditPegawai');
+            // Mengambil data dari elemen-elemen form
+            var editusername = $('#editusername').val();
+            var editnip = $('#editnip').val();
+            var editnama = $('#editnama').val();
+            var editjenis_kelamin = $('input[name="editjenis_kelamin"]:checked').val();
+            var editno_hp = $('#editno_hp').val();
+            var editalamat = $('#editalamat').val();
             var pegawai_id = $('#editpegawai_id').val();
-            var editBtn = $(this);
 
-            // Membuat objek FormData
-            var formData = new FormData(frm.get(0));
+            // Membuat objek JSON dari data
+            var data = {
+                editusername: editusername,
+                editnip: editnip,
+                editnama: editnama,
+                editjenis_kelamin: editjenis_kelamin,
+                editno_hp: editno_hp,
+                editalamat: editalamat,
+                //_token: $('meta[name="csrf-token"]').attr('content')
+            };
 
+            // Mengirim data ke server menggunakan AJAX
             $.ajax({
-                data: formData,
+                data: JSON.stringify(data),
                 url: '/pegawai/' + pegawai_id,
-                type: "PATCH",
-                processData: false,
-                contentType: false,
-                beforeSend: function() {
-                    // Menonaktifkan tombol selama pengiriman data
-                    editBtn.prop('disabled', true);
-                },
+                type: 'PUT',
+                contentType: 'application/json', // Atur tipe konten menjadi JSON
                 success: function(data) {
                     $('#formeditPegawai').trigger("reset");
                     $('#modaleditPegawai').modal('hide');
@@ -173,13 +180,14 @@
                 },
                 error: function(data) {
                     swal_error();
-                },
-                complete: function() {
-                    // Mengaktifkan tombol setelah pengiriman data selesai
-                    editBtn.prop('disabled', false);
+                    $('#editBtn').html('Save Changes');
                 }
             });
         });
+
+
+
+
 
 
         $(function() {
