@@ -42,8 +42,9 @@ class ApiMobileController extends Controller
             $lokerAkses = Locker::where('qrcode', $qrcodedata->qrcode)->first();
         }
         $history = History::where('pegawai', $userId)
+            ->where('activity', 1)
             ->orderBy('created_at', 'desc')
-            ->take(3)
+            ->take(1)
             ->get();
         $response = [];
 

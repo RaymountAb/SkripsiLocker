@@ -36,7 +36,7 @@ class PegawaiAuthController extends Controller
             'token' => $token,
             'pegawai' => [
                 'id' => $pegawai->id,
-                'nama' => $pegawai->username,
+                'nama' => $pegawai->nama,
             ]
         ], 200);
     }
