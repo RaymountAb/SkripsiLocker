@@ -32,6 +32,18 @@ class ApiMobileController extends Controller
         ], 200);
     }
 
+    public function history($userId)
+    {
+        $histories = History::where('pegawai', $userId)
+            ->orderBy('created_at', 'desc') // Mengurutkan berdasarkan created_at untuk mendapatkan yang terakhir
+            ->take(10)
+            ->get();
+
+        return response()->json([
+            'histories' => $histories
+        ], 200);
+    }
+
     public function home($userId)
     {
         $qrcodedata = MQrcode::where('pegawai', $userId)->first();
