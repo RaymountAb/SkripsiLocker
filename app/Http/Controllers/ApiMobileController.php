@@ -27,9 +27,18 @@ class ApiMobileController extends Controller
     {
         $qrcodepegawai = MQrcode::where('pegawai', $userId)->get();
 
-        return response()->json([
-            'qrcode' => $qrcodepegawai
-        ], 200);
+        if ($qrcodepegawai) {
+            return response()->json([
+                'qrcode' => $qrcodepegawai->qrcode,
+                'status' => 'success',
+                'message' => 'Berhasil mendapatkan loker kosong',
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Tidak ada QR Code pegawai'
+            ]);
+        }
     }
 
     public function history($userId)

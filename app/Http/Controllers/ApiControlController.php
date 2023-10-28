@@ -181,12 +181,12 @@ class ApiControlController extends Controller
 
                 return response()->json([
                     'status' => 'success',
-                    'message' => 'Sesi berhasil diakhiri'
+                    'message' => 'Akses berhasil diakhiri'
                 ]);
             } else {
                 return response()->json([
                     'status' => 'failed',
-                    'message' => 'Sesi gagal diakhiri'
+                    'message' => 'Akses gagal diakhiri'
                 ], 404);
             }
         } else {
