@@ -28,7 +28,6 @@ class ApiMobileController extends Controller
         $qrcodepegawai = MQrcode::where('pegawai', $userId)->get();
 
         if ($qrcodepegawai) {
-            $qrcodepegawai = MQrcode::where('pegawai', $userId)->get();
             return response()->json([
                 'qrcode' => $qrcodepegawai->qrcode,
                 'status' => 'success',
