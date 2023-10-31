@@ -29,7 +29,7 @@ class ApiMobileController extends Controller
         return response()->json([
             'qrcode' => $qrcodepegawai->qrcode,
             'status' => 'success',
-            'message' => 'Berhasil mendapatkan loker kosong',
+            'message' => 'Berhasil mengambil data QR Code',
         ]);
     }
 
